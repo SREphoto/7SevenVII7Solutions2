@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# 7SEVENVII7 SOLUTIONS — XML Sitemap
+Sitemap: https://7sevenvii7.com/sitemap.xml
