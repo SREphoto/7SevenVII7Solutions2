@@ -1,0 +1,392 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =========================================================================
+    // 0. GLOBAL DEFAULT-DENY SAFETY NET
+    // =========================================================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // =========================================================================
+    // 1. HARDENED GLOBAL PRIMITIVES
+    // =========================================================================
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Master Gate relational check: verifies parent studio profile exists and belongs to caller
+    function isParentStudioOwner(userId) {
+      return exists(/databases/$(database)/documents/studios/$(userId))
+        && get(/databases/$(database)/documents/studios/$(userId)).data.userId == request.auth.uid;
+    }
+
+    // =========================================================================
+    // 2. ENTITY VALIDATION BLUEPRINTS (ANTI-UPDATE-GAP)
+    // =========================================================================
+    function isValidStudioProfile(data) {
+      return data.keys().hasAll([
+          'userId',
+          'studioName',
+          'brandTheme',
+          'accentFinish',
+          'wishlistIds',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'userId',
+          'studioName',
+          'brandTheme',
+          'accentFinish',
+          'wishlistIds',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.userId is string
+        && data.userId.size() >= 1
+        && data.userId.size() <= 128
+        && data.userId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.userId == request.auth.uid
+        && data.studioName is string
+        && data.studioName.size() >= 1
+        && data.studioName.size() <= 42
+        && data.brandTheme is string
+        && data.brandTheme.size() >= 8
+        && data.brandTheme.size() <= 16
+        && (data.brandTheme == 'alabaster' || data.brandTheme == 'obsidian')
+        && data.accentFinish is string
+        && data.accentFinish.size() >= 8
+        && data.accentFinish.size() <= 16
+        && (data.accentFinish == 'champagne' || data.accentFinish == 'contrast')
+        && data.wishlistIds is list
+        && data.wishlistIds.size() <= 30
+        && (data.wishlistIds.size() == 0 || (data.wishlistIds[0] is string && data.wishlistIds[0].size() <= 64))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidStudioOrder(data) {
+      return data.keys().hasAll([
+          'orderId',
+          'userId',
+          'studioName',
+          'status',
+          'total',
+          'itemSummary',
+          'itemIds',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'orderId',
+          'userId',
+          'studioName',
+          'status',
+          'total',
+          'itemSummary',
+          'itemIds',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.orderId is string
+        && data.orderId.size() >= 3
+        && data.orderId.size() <= 32
+        && data.orderId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.userId is string
+        && data.userId.size() >= 1
+        && data.userId.size() <= 128
+        && data.userId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.userId == request.auth.uid
+        && data.studioName is string
+        && data.studioName.size() >= 1
+        && data.studioName.size() <= 42
+        && data.status is string
+        && data.status.size() >= 5
+        && data.status.size() <= 60
+        && (
+          data.status == 'Preparing Studio Courier'
+          || data.status == 'In Transit · Studio Courier'
+          || data.status == 'Instant Vault Unlocked'
+          || data.status == 'Delivered · Signed at Reception'
+        )
+        && (data.total is int || data.total is float)
+        && data.total >= 0
+        && data.total <= 100000
+        && data.itemSummary is string
+        && data.itemSummary.size() >= 1
+        && data.itemSummary.size() <= 240
+        && data.itemIds is list
+        && data.itemIds.size() >= 1
+        && data.itemIds.size() <= 25
+        && data.itemIds[0] is string
+        && data.itemIds[0].size() <= 64
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidSharedWishlist(data) {
+      return data.keys().hasAll([
+          'shareId',
+          'ownerId',
+          'studioName',
+          'productIds',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'shareId',
+          'ownerId',
+          'studioName',
+          'productIds',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.shareId is string
+        && data.shareId.size() >= 4
+        && data.shareId.size() <= 64
+        && data.shareId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.ownerId is string
+        && data.ownerId.size() >= 1
+        && data.ownerId.size() <= 128
+        && data.ownerId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.ownerId == request.auth.uid
+        && data.studioName is string
+        && data.studioName.size() >= 1
+        && data.studioName.size() <= 42
+        && data.productIds is list
+        && data.productIds.size() >= 1
+        && data.productIds.size() <= 30
+        && data.productIds[0] is string
+        && data.productIds[0].size() <= 64
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidProductReview(data) {
+      return data.keys().hasAll([
+          'reviewId',
+          'productId',
+          'authorId',
+          'authorName',
+          'studioName',
+          'rating',
+          'quote',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'reviewId',
+          'productId',
+          'authorId',
+          'authorName',
+          'studioName',
+          'rating',
+          'quote',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.reviewId is string
+        && data.reviewId.size() >= 4
+        && data.reviewId.size() <= 64
+        && data.reviewId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.productId is string
+        && data.productId.size() >= 2
+        && data.productId.size() <= 64
+        && data.productId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.authorId is string
+        && data.authorId.size() >= 1
+        && data.authorId.size() <= 128
+        && data.authorId.matches('^[a-zA-Z0-9_\\-]+$')
+        && data.authorId == request.auth.uid
+        && data.authorName is string
+        && data.authorName.size() >= 1
+        && data.authorName.size() <= 40
+        && data.studioName is string
+        && data.studioName.size() >= 1
+        && data.studioName.size() <= 45
+        && data.rating is int
+        && data.rating >= 1
+        && data.rating <= 5
+        && data.quote is string
+        && data.quote.size() >= 2
+        && data.quote.size() <= 220
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // =========================================================================
+    // 3. COLLECTION RULES
+    // =========================================================================
+
+    // 3A. Studio Owner Profile (/studios/{userId})
+    match /studios/{userId} {
+      allow get: if isOwner(userId) && isValidId(userId);
+      allow list: if false;
+
+      allow create: if isVerified()
+        && isValidId(userId)
+        && isOwner(userId)
+        && isValidStudioProfile(incoming())
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      allow update: if isVerified()
+        && isValidId(userId)
+        && isValidStudioProfile(incoming())
+        && isOwner(userId)
+        && incoming().userId == existing().userId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          // Action: Update Studio Crest, Brand Theme, or Wishlist
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'studioName',
+            'brandTheme',
+            'accentFinish',
+            'wishlistIds',
+            'updatedAt'
+          ])
+        );
+
+      allow delete: if false;
+
+      // 3B. Studio Orders Subcollection (/studios/{userId}/orders/{orderId})
+      match /orders/{orderId} {
+        allow get: if isOwner(userId)
+          && isValidId(userId)
+          && isValidId(orderId)
+          && isParentStudioOwner(userId);
+
+        // Pillar 8 Secure List Query: evaluates resource.data.userId without get()/exists()
+        allow list: if isOwner(userId)
+          && resource.data.userId == request.auth.uid;
+
+        allow create: if isVerified()
+          && isValidId(userId)
+          && isValidId(orderId)
+          && isOwner(userId)
+          && isValidStudioOrder(incoming())
+          && incoming().orderId == orderId
+          && incoming().createdAt == request.time
+          && incoming().updatedAt == request.time
+          && isParentStudioOwner(userId);
+
+        allow update: if isVerified()
+          && isValidId(userId)
+          && isValidId(orderId)
+          && isValidStudioOrder(incoming())
+          && isOwner(userId)
+          && existing().status != 'Delivered · Signed at Reception'
+          && incoming().userId == existing().userId
+          && incoming().orderId == existing().orderId
+          && incoming().total == existing().total
+          && incoming().createdAt == existing().createdAt
+          && incoming().updatedAt == request.time
+          && (
+            // Action: Advance Fulfillment Status
+            incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt'])
+          )
+          && isParentStudioOwner(userId);
+
+        allow delete: if false;
+      }
+    }
+
+    // 3C. Cloud-Shared Studio Wishlists (/sharedWishlists/{shareId})
+    match /sharedWishlists/{shareId} {
+      // Single-document lookup by shareId token allowed for partner preview links; collection scraping blocked
+      allow get: if isValidId(shareId);
+      allow list: if false;
+
+      allow create: if isVerified()
+        && isValidId(shareId)
+        && isValidSharedWishlist(incoming())
+        && incoming().shareId == shareId
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && isParentStudioOwner(request.auth.uid);
+
+      allow update: if isVerified()
+        && isValidId(shareId)
+        && isValidSharedWishlist(incoming())
+        && existing().ownerId == request.auth.uid
+        && incoming().ownerId == existing().ownerId
+        && incoming().shareId == existing().shareId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          // Action: Refresh Shared Wishlist Selection
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'studioName',
+            'productIds',
+            'updatedAt'
+          ])
+        )
+        && isParentStudioOwner(request.auth.uid);
+
+      allow delete: if isVerified()
+        && isValidId(shareId)
+        && existing().ownerId == request.auth.uid;
+    }
+
+    // 3D. Verified Studio Product Reviews (/productReviews/{reviewId})
+    match /productReviews/{reviewId} {
+      allow get: if isValidId(reviewId);
+      allow list: if resource.data.rating >= 1 && resource.data.rating <= 5;
+
+      allow create: if isVerified()
+        && isValidId(reviewId)
+        && isValidProductReview(incoming())
+        && incoming().reviewId == reviewId
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && isParentStudioOwner(request.auth.uid);
+
+      allow update: if isVerified()
+        && isValidId(reviewId)
+        && isValidProductReview(incoming())
+        && existing().authorId == request.auth.uid
+        && incoming().authorId == existing().authorId
+        && incoming().reviewId == existing().reviewId
+        && incoming().productId == existing().productId
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          // Action: Edit Review Commentary or Rating
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'quote',
+            'rating',
+            'updatedAt'
+          ])
+        )
+        && isParentStudioOwner(request.auth.uid);
+
+      allow delete: if isVerified()
+        && isValidId(reviewId)
+        && existing().authorId == request.auth.uid;
+    }
+  }
+}

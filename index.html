@@ -261,32 +261,18 @@
 
     .glass-obsidian {
       position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(197, 179, 150, 0.18) 100%);
-      color: #F7F5F0;
-      backdrop-filter: blur(26px) saturate(195%);
-      -webkit-backdrop-filter: blur(26px) saturate(195%);
-      border-top: 1px solid rgba(255, 255, 255, 0.68);
-      border-left: 1px solid rgba(255, 255, 255, 0.48);
-      border-right: 1px solid rgba(197, 179, 150, 0.35);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+      background: rgba(246, 243, 237, 0.94);
+      color: #141414;
+      backdrop-filter: blur(10px) saturate(125%);
+      -webkit-backdrop-filter: blur(10px) saturate(125%);
+      border: 1px solid #141414;
       box-shadow:
-        0 28px 60px -14px rgba(0, 0, 0, 0.65),
-        0 12px 24px -8px rgba(0, 0, 0, 0.42),
-        inset 0 1px 2px 0 rgba(255, 255, 255, 0.65),
-        inset 0 -1px 1px 0 rgba(197, 179, 150, 0.26);
+        0 22px 46px -14px rgba(0, 0, 0, 0.55),
+        0 8px 18px -6px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
     }
 
-    .glass-obsidian::before,
-    .glass-atelier-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(118deg, rgba(255, 255, 255, 0.30) 0%, rgba(255, 255, 255, 0.07) 34%, transparent 56%);
-      pointer-events: none;
-    }
-
-    /* Tactile Textured Architectural Backgrounds for High-Impact Glassmorphism */
+    /* Tactile Textured Architectural Backgrounds */
     .textured-linen-section {
       position: relative;
       background-color: rgb(var(--rgb-taupe) / 0.28);
@@ -298,48 +284,41 @@
         url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
     }
 
+    /* Plain, Darker Tactile Textured Stone & Linen Weave Canvas (No Photo Clutter) */
     .textured-atelier-showcase {
       position: relative;
       overflow: hidden;
-      background-color: #1A1714;
+      background-color: #191715;
       background-image:
-        radial-gradient(circle at 18% 25%, rgba(235, 213, 179, 0.42) 0%, transparent 44%),
-        radial-gradient(circle at 82% 72%, rgba(247, 245, 240, 0.30) 0%, transparent 46%),
-        linear-gradient(125deg, rgba(20, 18, 15, 0.56) 0%, rgba(36, 31, 25, 0.34) 48%, rgba(18, 16, 14, 0.62) 100%),
-        url('./src/assets/images/showroom_uniform_atelier_1795534615224.jpg');
-      background-size: cover, cover, cover, cover;
-      background-position: center;
+        radial-gradient(circle at 20% 20%, rgba(197, 179, 150, 0.12) 0%, transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.45) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0px, rgba(255, 255, 255, 0.025) 1px, transparent 1px, transparent 7px),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0px, rgba(255, 255, 255, 0.02) 1px, transparent 1px, transparent 7px),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.14'/%3E%3C/svg%3E"),
+        linear-gradient(145deg, #1F1C19 0%, #161412 52%, #1D1A17 100%);
     }
 
     .glass-atelier-card {
       position: relative;
-      overflow: hidden;
-      background: linear-gradient(140deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.09) 52%, rgba(197, 179, 150, 0.19) 100%);
-      color: #F7F5F0;
-      backdrop-filter: blur(24px) saturate(195%);
-      -webkit-backdrop-filter: blur(24px) saturate(195%);
-      border-top: 1px solid rgba(255, 255, 255, 0.72);
-      border-left: 1px solid rgba(255, 255, 255, 0.52);
-      border-right: 1px solid rgba(197, 179, 150, 0.36);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+      background: rgba(246, 243, 237, 0.93);
+      color: #141414;
+      backdrop-filter: blur(10px) saturate(125%);
+      -webkit-backdrop-filter: blur(10px) saturate(125%);
+      border: 1px solid #141414;
       box-shadow:
-        0 30px 64px -14px rgba(0, 0, 0, 0.72),
-        0 14px 28px -8px rgba(0, 0, 0, 0.46),
-        inset 0 1px 2px 0 rgba(255, 255, 255, 0.72),
-        inset 0 -1px 1px 0 rgba(197, 179, 150, 0.30);
-      transition: transform 0.45s var(--ease-weighted), box-shadow 0.45s var(--ease-weighted), border-color 0.35s var(--ease-weighted), background 0.35s var(--ease-weighted);
+        0 24px 48px -12px rgba(0, 0, 0, 0.62),
+        0 10px 22px -6px rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.9);
+      transition: transform 0.4s var(--ease-weighted), box-shadow 0.4s var(--ease-weighted), background-color 0.3s ease;
     }
 
     .glass-atelier-card:hover {
-      transform: translate3d(0, -6px, 0);
-      background: linear-gradient(140deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.13) 52%, rgba(197, 179, 150, 0.26) 100%);
-      border-top-color: rgba(255, 255, 255, 0.92);
-      border-left-color: rgba(255, 255, 255, 0.72);
+      transform: translate3d(0, -5px, 0);
+      background: rgba(250, 248, 244, 0.98);
       box-shadow:
-        0 38px 76px -12px rgba(0, 0, 0, 0.82),
-        0 18px 34px -8px rgba(0, 0, 0, 0.54),
-        inset 0 1px 2px 0 rgba(255, 255, 255, 0.88),
-        inset 0 -1px 1px 0 rgba(197, 179, 150, 0.45);
+        0 32px 64px -12px rgba(0, 0, 0, 0.75),
+        0 14px 28px -8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 0 rgba(255, 255, 255, 1);
     }
 
     /* Architectural Card Drop Shadows for Clear 3D Separation */
@@ -844,7 +823,7 @@
             <circle cx="12" cy="8" r="3.5" />
             <path d="M5 20c0-3.8 3.1-6.5 7-6.5s7 2.7 7 6.5" />
           </svg>
-          <span class="hidden xl:inline">ACCOUNT</span>
+          <span id="nav-account-btn-label" class="hidden xl:inline">ACCOUNT</span>
         </button>
 
         <!-- Dark Mode / Atelier Theme Toggle -->
@@ -1537,66 +1516,56 @@
     </section>
 
     <!-- =======================================================================
-         SECTION 03 — TEXTURED ARCHITECTURAL MATERIALITY & GLASSMORPHISM SHOWCASE
+         SECTION 03 — PLAIN DARK TEXTURED ARCHITECTURAL MATERIALITY SHOWCASE
          ======================================================================= -->
     <section id="atelier-standards" aria-labelledby="atelier-standards-heading" class="border-b border-obsidian textured-atelier-showcase py-20 sm:py-28">
-      <!-- High-Contrast Refractive Ambient Light Orbs, Architectural Grid & Watermark Behind the Frosted Glass -->
+      <!-- Subtle Plain Architectural Hairlines on the Dark Textured Stone Backdrop -->
       <div class="pointer-events-none select-none absolute inset-0 overflow-hidden z-0" aria-hidden="true">
-        <div class="absolute -top-20 left-[8%] w-[360px] h-[360px] rounded-full bg-[#E5C99B]/45 blur-[65px]"></div>
-        <div class="absolute top-[28%] right-[10%] w-[420px] h-[420px] rounded-full bg-[#F7F5F0]/35 blur-[75px]"></div>
-        <div class="absolute -bottom-24 left-[36%] w-[380px] h-[380px] rounded-full bg-[#C5B396]/45 blur-[70px]"></div>
-        <!-- Architectural Reticle Grid Lines to Visibly Refract Through the Frosted Glass -->
-        <div class="absolute inset-x-0 top-[34%] h-px bg-gradient-to-r from-transparent via-[#F7F5F0]/45 to-transparent"></div>
-        <div class="absolute inset-x-0 bottom-[26%] h-px bg-gradient-to-r from-transparent via-[#C5B396]/50 to-transparent"></div>
-        <div class="absolute inset-y-0 left-[33.3%] w-px bg-gradient-to-b from-transparent via-[#F7F5F0]/30 to-transparent hidden md:block"></div>
-        <div class="absolute inset-y-0 left-[66.6%] w-px bg-gradient-to-b from-transparent via-[#F7F5F0]/30 to-transparent hidden md:block"></div>
-        <!-- Oversized Architectural Typography Behind the Glass Cards for True Optical Blur Proof -->
-        <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center font-serif text-[72px] sm:text-[132px] xl:text-[176px] leading-none tracking-[0.18em] uppercase text-[#F7F5F0]/22 whitespace-nowrap">
-          7SEVENVII7 · ATELIER OPTICS
-        </div>
+        <div class="absolute inset-x-0 top-12 h-px bg-white/10"></div>
+        <div class="absolute inset-x-0 bottom-12 h-px bg-white/10"></div>
       </div>
 
-      <div class="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-8 space-y-10">
-        <!-- Frosted Glass Header Banner Over Textured Travertine/Grain Backdrop -->
+      <div class="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-8 space-y-8">
+        <!-- Warm Alabaster Header Panel with High-Contrast Dark Obsidian Text -->
         <div class="glass-obsidian p-6 sm:p-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div class="max-w-2xl">
             <div class="flex items-center gap-3 mb-3">
-              <span class="px-2.5 py-0.5 border border-white/60 bg-white/10 text-[#F7F5F0] text-[10px] font-medium tracking-[0.18em] uppercase tabular-nums">
+              <span class="px-2.5 py-0.5 border border-[#141414] bg-[#141414] text-[#F7F5F0] text-[10px] font-medium tracking-[0.18em] uppercase tabular-nums">
                 SECTION 03
               </span>
-              <span class="text-[10px] sm:text-[11px] font-medium tracking-[0.18em] uppercase text-[#F7F5F0]/90">
-                OPTICAL GLASS SHOWCASE · TACTILE MATERIALITY
+              <span class="text-[10px] sm:text-[11px] font-medium tracking-[0.18em] uppercase text-[#141414]/70">
+                ATELIER SPECIFICATIONS · TACTILE MATERIALITY
               </span>
             </div>
-            <h2 id="atelier-standards-heading" class="font-serif text-[34px] sm:text-[46px] leading-[1.06] font-normal text-[#F7F5F0] text-balance drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
+            <h2 id="atelier-standards-heading" class="font-serif text-[34px] sm:text-[46px] leading-[1.06] font-normal text-[#141414] text-balance">
               Engineered for Daily Salon &amp; Treatment Room Rigor
             </h2>
           </div>
-          <p class="text-[13px] leading-[1.65] text-[#F7F5F0]/90 max-w-md">
+          <p class="text-[13px] leading-[1.65] text-[#141414]/80 max-w-md">
             Every physical garment, letterpress card, and digital PDF in our ecosystem is built to unify your studio's visual authority from the reception desk to the treatment chair.
           </p>
         </div>
 
-        <!-- 3 Frosted Glassmorphic Pillar Cards Floating Over the Illuminated Textured Canvas -->
+        <!-- 3 High-Contrast Pillar Cards with Crisp Dark Obsidian Typography Over the Dark Textured Canvas -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           <div class="glass-atelier-card p-8 sm:p-10 flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-white/30">
-                <span class="text-[11px] font-medium tracking-[0.18em] uppercase text-[#F2DEC0]">
+              <div class="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[#141414]/20">
+                <span class="text-[11px] font-medium tracking-[0.18em] uppercase text-[#7A5B1E]">
                   01 · TEXTILE STANDARD
                 </span>
-                <span class="px-2 py-0.5 border border-white/35 bg-white/10 text-[10px] tracking-[0.14em] uppercase text-[#F7F5F0] tabular-nums">
+                <span class="px-2 py-0.5 border border-[#141414]/35 bg-[#EDE7DE] text-[10px] tracking-[0.14em] uppercase text-[#141414] tabular-nums">
                   480GSM FLEECE
                 </span>
               </div>
-              <h3 class="font-serif text-[28px] leading-[1.12] font-normal text-[#F7F5F0] mb-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+              <h3 class="font-serif text-[28px] leading-[1.12] font-normal text-[#141414] mb-3">
                 480gsm Organic Fleece &amp; Waxed Twill
               </h3>
-              <p class="text-[13px] leading-[1.65] text-[#F7F5F0]/90">
+              <p class="text-[13px] leading-[1.65] text-[#141414]/80">
                 Custom-milled cream French terry, bleach-resistant waxed stylist canvas, and 500gsm heated spa towels engineered to hold sculptural drape from first client to last.
               </p>
             </div>
-            <div class="mt-8 pt-4 border-t border-white/25 flex items-center justify-between text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2DEC0]">
+            <div class="mt-8 pt-4 border-t border-[#141414]/20 flex items-center justify-between text-[10px] font-medium tracking-[0.15em] uppercase text-[#141414]">
               <span>CUSTOM CREST EMBROIDERY</span>
               <span>XS – XXL</span>
             </div>
@@ -1604,22 +1573,22 @@
 
           <div class="glass-atelier-card p-8 sm:p-10 flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-white/30">
-                <span class="text-[11px] font-medium tracking-[0.18em] uppercase text-[#F2DEC0]">
+              <div class="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[#141414]/20">
+                <span class="text-[11px] font-medium tracking-[0.18em] uppercase text-[#7A5B1E]">
                   02 · BESPOKE PRINT &amp; DESK
                 </span>
-                <span class="px-2 py-0.5 border border-white/35 bg-white/10 text-[10px] tracking-[0.14em] uppercase text-[#F7F5F0] tabular-nums">
+                <span class="px-2 py-0.5 border border-[#141414]/35 bg-[#EDE7DE] text-[10px] tracking-[0.14em] uppercase text-[#141414] tabular-nums">
                   600GSM COTTON
                 </span>
               </div>
-              <h3 class="font-serif text-[28px] leading-[1.12] font-normal text-[#F7F5F0] mb-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+              <h3 class="font-serif text-[28px] leading-[1.12] font-normal text-[#141414] mb-3">
                 Archival Letterpress &amp; 25mm Acrylic
               </h3>
-              <p class="text-[13px] leading-[1.65] text-[#F7F5F0]/90">
+              <p class="text-[13px] leading-[1.65] text-[#141414]/80">
                 Blind-debossed 600gsm cotton calling cards, watermarked consultation letterhead, brass wax seals, and solid 25mm laser-engraved QR reception blocks.
               </p>
             </div>
-            <div class="mt-8 pt-4 border-t border-white/25 flex items-center justify-between text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2DEC0]">
+            <div class="mt-8 pt-4 border-t border-[#141414]/20 flex items-center justify-between text-[10px] font-medium tracking-[0.15em] uppercase text-[#141414]">
               <span>CHAMPAGNE FOIL EDGING</span>
               <span>3–5 DAY PROOF</span>
             </div>
@@ -1627,22 +1596,22 @@
 
           <div class="glass-atelier-card p-8 sm:p-10 flex flex-col justify-between">
             <div>
-              <div class="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-white/30">
-                <span class="text-[11px] font-medium tracking-[0.18em] uppercase text-[#F2DEC0]">
+              <div class="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-[#141414]/20">
+                <span class="text-[11px] font-medium tracking-[0.18em] uppercase text-[#7A5B1E]">
                   03 · DIGITAL INFRASTRUCTURE
                 </span>
-                <span class="px-2 py-0.5 border border-white/35 bg-white/10 text-[10px] tracking-[0.14em] uppercase text-[#F7F5F0] tabular-nums">
+                <span class="px-2 py-0.5 border border-[#141414]/35 bg-[#EDE7DE] text-[10px] tracking-[0.14em] uppercase text-[#141414] tabular-nums">
                   INSTANT VAULT
                 </span>
               </div>
-              <h3 class="font-serif text-[28px] leading-[1.12] font-normal text-[#F7F5F0] mb-3 drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+              <h3 class="font-serif text-[28px] leading-[1.12] font-normal text-[#141414] mb-3">
                 Zero-Wait PDF &amp; Tablet Workflows
               </h3>
-              <p class="text-[13px] leading-[1.65] text-[#F7F5F0]/90">
+              <p class="text-[13px] leading-[1.65] text-[#141414]/80">
                 Attorney-reviewed chemical &amp; extension waivers, hair color formulation logs, and backbar SOP manuals delivered immediately upon checkout.
               </p>
             </div>
-            <div class="mt-8 pt-4 border-t border-white/25 flex items-center justify-between text-[10px] font-medium tracking-[0.15em] uppercase text-[#F2DEC0]">
+            <div class="mt-8 pt-4 border-t border-[#141414]/20 flex items-center justify-between text-[10px] font-medium tracking-[0.15em] uppercase text-[#141414]">
               <span>300 DPI PRINT + IPAD PDF</span>
               <span>$0 DELIVERY</span>
             </div>
@@ -2762,6 +2731,39 @@
 
       <!-- Scrollable Account Body -->
       <div class="overflow-y-auto flex-1 p-5 sm:p-8 space-y-8">
+        <!-- 0. Firebase Authentication & Cloud Firestore Live Sync Bar -->
+        <div id="firebase-auth-bar" class="border border-obsidian bg-alabaster p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-[10px] font-medium tracking-[0.16em] uppercase text-obsidian/70">
+                CLOUD PERSISTENCE · FIREBASE AUTH &amp; FIRESTORE
+              </span>
+              <span id="account-firebase-status-badge" class="border border-obsidian/40 text-obsidian/75 px-2 py-0.5 text-[9px] font-medium tracking-[0.15em] uppercase">
+                LOCAL STUDIO SESSION
+              </span>
+            </div>
+            <p id="account-firebase-user-label" class="text-[12px] text-obsidian/80">
+              Sign in with Google to persist your Studio Crest, Wishlist, and Order History across all studio devices.
+            </p>
+          </div>
+          <div class="flex items-center gap-2.5 shrink-0">
+            <button
+              id="account-google-signin-btn"
+              type="button"
+              class="bg-obsidian text-alabaster px-4 py-2.5 text-[10px] font-medium tracking-[0.15em] uppercase hover:bg-[#2a2a2a] transition-colors whitespace-nowrap min-h-[40px]"
+            >
+              SIGN IN WITH GOOGLE
+            </button>
+            <button
+              id="account-google-signout-btn"
+              type="button"
+              class="hidden border border-obsidian bg-alabaster text-obsidian hover:bg-taupe/35 px-4 py-2.5 text-[10px] font-medium tracking-[0.15em] uppercase transition-colors whitespace-nowrap min-h-[40px]"
+            >
+              SIGN OUT
+            </button>
+          </div>
+        </div>
+
         <!-- 1. Studio Profile & Session-Wide Saved Personalization Crest -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 border border-obsidian bg-taupe/20 p-5 sm:p-6">
           <div class="lg:col-span-7 space-y-2">
@@ -4892,11 +4894,14 @@
         }
       }
       let wishlist = loadWishlist();
-      function saveWishlist() {
+      function saveWishlist(syncCloud = true) {
         try {
           localStorage.setItem(WISHLIST_STORAGE_KEY, JSON.stringify(wishlist));
         } catch {
           // Ignore storage quota errors
+        }
+        if (syncCloud && window.AtelierFirebase) {
+          window.AtelierFirebase.syncStudioProfile({ wishlistIds: wishlist });
         }
       }
 
@@ -6749,7 +6754,7 @@
         '1000': 95,
       };
 
-      function syncSessionStudioName(newName, announce = false) {
+      function syncSessionStudioName(newName, announce = false, syncCloud = true) {
         sessionStudioName = (newName || '').trim();
         try {
           if (sessionStudioName) {
@@ -6759,6 +6764,10 @@
           }
         } catch {
           // Ignore storage errors
+        }
+
+        if (syncCloud && sessionStudioName && window.AtelierFirebase) {
+          window.AtelierFirebase.syncStudioProfile({ studioName: sessionStudioName });
         }
 
         if (announcementStudioCrest) {
@@ -7399,6 +7408,16 @@ startxref
         });
         PRODUCT_REVIEWS[activeQuickViewProduct.id] = bucket;
 
+        if (window.AtelierFirebase) {
+          window.AtelierFirebase.submitProductReviewToCloud({
+            productId: activeQuickViewProduct.id,
+            authorName: author,
+            studioName: studio,
+            rating,
+            quote,
+          });
+        }
+
         qvRevAuthor.value = '';
         qvRevStudio.value = '';
         qvRevQuote.value = '';
@@ -7899,6 +7918,15 @@ startxref
             document.execCommand('copy');
           }
           wishlistCopyUrlBtn.textContent = 'COPIED ✓';
+          if (window.AtelierFirebase && wishlist.length > 0) {
+            const urlParams = new URL(urlToCopy).searchParams;
+            const token = urlParams.get('share') || `7V_${Date.now()}`;
+            window.AtelierFirebase.publishSharedWishlistToCloud(
+              token,
+              sessionStudioName || 'MAISON VERITE',
+              wishlist
+            );
+          }
           showToast('Unique public Wishlist URL copied to clipboard — ready to share with partners.');
           setTimeout(() => {
             wishlistCopyUrlBtn.textContent = 'COPY LINK';
@@ -7911,9 +7939,14 @@ startxref
           const params = new URLSearchParams(window.location.search);
           const sharedStudio = params.get('studio');
           if (sharedStudio) {
-            syncSessionStudioName(sharedStudio, false);
+            syncSessionStudioName(sharedStudio, false, false);
           }
+          const shareToken = params.get('share');
           const sharedRaw = params.get('wishlist');
+          if (!sharedRaw && shareToken && window.AtelierFirebase) {
+            window.AtelierFirebase.loadSharedWishlistFromCloud(shareToken);
+            return;
+          }
           if (!sharedRaw) return;
           const validIds = sharedRaw
             .split(',')
@@ -8163,12 +8196,13 @@ startxref
         };
 
         // Prepend to Studio Account Past Orders History for one-click reordering
+        const newOrderStatus = hasDigital && cart.every((i) => i.category === 'digital')
+          ? 'Instant Vault Unlocked'
+          : 'Preparing Studio Courier';
         PAST_STUDIO_ORDERS.unshift({
           orderId: orderCode,
           date: 'Just Now · Nov 24, 2026',
-          status: hasDigital && cart.every((i) => i.category === 'digital')
-            ? 'Instant Vault Unlocked'
-            : 'Preparing Studio Courier',
+          status: newOrderStatus,
           total,
           items: cart.map((cItem) => ({
             productId: cItem.id,
@@ -8177,6 +8211,17 @@ startxref
           })),
         });
         renderStudioAccount();
+
+        if (window.AtelierFirebase) {
+          window.AtelierFirebase.recordOrderToCloud({
+            orderId: orderCode,
+            studioName: sessionStudioName || 'MAISON VERITE',
+            status: newOrderStatus,
+            total,
+            itemSummary: cart.map((c) => `${c.qty}x ${c.name}`).join(', ').slice(0, 240),
+            itemIds: cart.map((c) => c.id),
+          });
+        }
 
         // Clear cart after order confirmation
         cart = [];
@@ -8759,6 +8804,9 @@ startxref
           accountBrandTheme = 'alabaster';
           localStorage.setItem('7vii7_brand_palette_pref', 'alabaster');
           renderAccountThemeVisualizer();
+          if (window.AtelierFirebase) {
+            window.AtelierFirebase.syncStudioProfile({ brandTheme: 'alabaster' });
+          }
         });
       }
       if (accountThemeBtnObsidian) {
@@ -8766,12 +8814,18 @@ startxref
           accountBrandTheme = 'obsidian';
           localStorage.setItem('7vii7_brand_palette_pref', 'obsidian');
           renderAccountThemeVisualizer();
+          if (window.AtelierFirebase) {
+            window.AtelierFirebase.syncStudioProfile({ brandTheme: 'obsidian' });
+          }
         });
       }
       accountFinishBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
           accountAccentFinish = btn.getAttribute('data-account-accent-finish') || 'champagne';
           renderAccountThemeVisualizer();
+          if (window.AtelierFirebase) {
+            window.AtelierFirebase.syncStudioProfile({ accentFinish: accountAccentFinish });
+          }
         });
       });
       accountGarmentBtns.forEach((btn) => {
@@ -9636,8 +9690,123 @@ startxref
         }
       }
 
+      // Wire Firebase Auth & Cloud Firestore Live Sync Hooks
+      const accountGoogleSignInBtn = document.getElementById('account-google-signin-btn');
+      const accountGoogleSignOutBtn = document.getElementById('account-google-signout-btn');
+      if (accountGoogleSignInBtn) {
+        accountGoogleSignInBtn.addEventListener('click', () => {
+          if (window.AtelierFirebase) window.AtelierFirebase.signInWithGoogle();
+        });
+      }
+      if (accountGoogleSignOutBtn) {
+        accountGoogleSignOutBtn.addEventListener('click', () => {
+          if (window.AtelierFirebase) window.AtelierFirebase.signOutStudio();
+        });
+      }
+
+      function bindFirebaseHooks() {
+        if (!window.AtelierFirebase) return;
+        window.AtelierFirebase.registerHooks({
+          getInitialState: () => ({
+            studioName: sessionStudioName || 'MAISON VERITE',
+            brandTheme: accountBrandTheme === 'obsidian' ? 'obsidian' : 'alabaster',
+            accentFinish: accountAccentFinish === 'contrast' ? 'contrast' : 'champagne',
+            wishlistIds: wishlist,
+          }),
+          onProfileSynced: (cloudProfile) => {
+            if (cloudProfile.studioName && cloudProfile.studioName !== sessionStudioName) {
+              syncSessionStudioName(cloudProfile.studioName, false, false);
+            }
+            if (cloudProfile.brandTheme && cloudProfile.brandTheme !== accountBrandTheme) {
+              accountBrandTheme = cloudProfile.brandTheme;
+              localStorage.setItem('7vii7_brand_palette_pref', accountBrandTheme);
+            }
+            if (cloudProfile.accentFinish && cloudProfile.accentFinish !== accountAccentFinish) {
+              accountAccentFinish = cloudProfile.accentFinish;
+            }
+            if (Array.isArray(cloudProfile.wishlistIds)) {
+              const validCloudIds = cloudProfile.wishlistIds.filter((id) =>
+                PRODUCTS.some((p) => p.id === id)
+              );
+              if (validCloudIds.length > 0) {
+                wishlist = validCloudIds;
+                saveWishlist(false);
+                updateWishlistCounts();
+                renderCatalog();
+              }
+            }
+            renderStudioAccount();
+            renderAccountThemeVisualizer();
+          },
+          onOrdersSynced: (cloudOrders) => {
+            cloudOrders.forEach((co) => {
+              if (!PAST_STUDIO_ORDERS.some((o) => o.orderId === co.orderId)) {
+                PAST_STUDIO_ORDERS.unshift({
+                  orderId: co.orderId,
+                  date: 'Synced from Cloud',
+                  status: co.status,
+                  total: co.total,
+                  items: (co.itemIds || []).map((pid) => {
+                    const p = PRODUCTS.find((prod) => prod.id === pid);
+                    return {
+                      productId: pid,
+                      qty: 1,
+                      variant: p ? getPersonalizedDefaultVariant(p) : 'Drop 01 Studio Edition',
+                    };
+                  }),
+                });
+              }
+            });
+            renderStudioAccount();
+          },
+          onReviewsSynced: (cloudReviews) => {
+            cloudReviews.forEach((cr) => {
+              if (!cr.productId || !PRODUCTS.some((p) => p.id === cr.productId)) return;
+              const bucket = PRODUCT_REVIEWS[cr.productId] || { rating: 5.0, count: 0, items: [] };
+              const alreadyExists = bucket.items.some(
+                (it) => it.author === cr.authorName && it.quote === cr.quote
+              );
+              if (!alreadyExists) {
+                bucket.items.unshift({
+                  author: cr.authorName,
+                  studio: cr.studioName,
+                  rating: cr.rating,
+                  date: 'Verified Cloud Review',
+                  quote: cr.quote,
+                });
+                bucket.count = bucket.items.length;
+                PRODUCT_REVIEWS[cr.productId] = bucket;
+              }
+            });
+          },
+          onSharedWishlistLoaded: (sharedData) => {
+            if (sharedData.studioName) {
+              syncSessionStudioName(sharedData.studioName, false, false);
+            }
+            sharedData.productIds.forEach((id) => {
+              if (PRODUCTS.some((p) => p.id === id) && !wishlist.includes(id)) {
+                wishlist.push(id);
+              }
+            });
+            saveWishlist(false);
+            updateWishlistCounts();
+            renderCatalog();
+            openWishlistDrawer();
+            showToast(`Loaded Cloud Shared Studio Wishlist (${sharedData.productIds.length} objects).`);
+          },
+          showToast,
+        });
+      }
+
+      if (window.AtelierFirebase) {
+        bindFirebaseHooks();
+      } else {
+        window.addEventListener('load', bindFirebaseHooks);
+      }
+
       updateScrollEffects();
     })();
   </script>
+  <script type="module" src="/src/firebase-client.ts"></script>
 </body>
 </html>

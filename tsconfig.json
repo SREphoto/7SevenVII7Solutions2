@@ -4,11 +4,14 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowJs": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "noEmit": true
   },
   "include": [
-    "vite.config.ts"
+    "vite.config.ts",
+    "src/firebase-client.ts",
+    "firestore.rules.test.ts"
   ],
   "exclude": [
     "node_modules",

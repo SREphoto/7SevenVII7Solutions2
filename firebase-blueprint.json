@@ -1,0 +1,281 @@
+{
+  "entities": {
+    "StudioProfile": {
+      "title": "StudioProfile",
+      "description": "Authenticated studio owner profile, saved crest personalization memory, brand palette preference, and saved wishlist product IDs.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The authenticated Firebase user UID owning this studio profile.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "studioName": {
+          "type": "string",
+          "description": "Saved studio crest imprint name applied across uniforms, print, QR blocks, and POS.",
+          "minLength": 1,
+          "maxLength": 42
+        },
+        "brandTheme": {
+          "type": "string",
+          "description": "Primary brand color theme preference for stationery and uniform visualizer.",
+          "enum": ["alabaster", "obsidian"],
+          "minLength": 8,
+          "maxLength": 16
+        },
+        "accentFinish": {
+          "type": "string",
+          "description": "Preferred foil and embroidery thread accent finish.",
+          "enum": ["champagne", "contrast"],
+          "minLength": 8,
+          "maxLength": 16
+        },
+        "wishlistIds": {
+          "type": "array",
+          "description": "Bounded list of saved product IDs in the studio wishlist (max 30 items)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-modified timestamp."
+        }
+      },
+      "required": [
+        "userId",
+        "studioName",
+        "brandTheme",
+        "accentFinish",
+        "wishlistIds",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "StudioOrder": {
+      "title": "StudioOrder",
+      "description": "A studio order record stored under a specific studio profile for order tracking and one-click replenishment.",
+      "type": "object",
+      "properties": {
+        "orderId": {
+          "type": "string",
+          "description": "Order reference code (e.g., 7V-1042).",
+          "minLength": 3,
+          "maxLength": 32,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner UID matching the parent studio profile.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "studioName": {
+          "type": "string",
+          "description": "Studio crest associated with the order.",
+          "minLength": 1,
+          "maxLength": 42
+        },
+        "status": {
+          "type": "string",
+          "description": "Current fulfillment status of the studio order.",
+          "enum": [
+            "Preparing Studio Courier",
+            "In Transit · Studio Courier",
+            "Instant Vault Unlocked",
+            "Delivered · Signed at Reception"
+          ],
+          "minLength": 5,
+          "maxLength": 60
+        },
+        "total": {
+          "type": "number",
+          "description": "Order total in USD."
+        },
+        "itemSummary": {
+          "type": "string",
+          "description": "Formatted line-item summary for quick display and reorder reference.",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "itemIds": {
+          "type": "array",
+          "description": "Bounded list of ordered product IDs (1 to 25 items)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "orderId",
+        "userId",
+        "studioName",
+        "status",
+        "total",
+        "itemSummary",
+        "itemIds",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "SharedWishlist": {
+      "title": "SharedWishlist",
+      "description": "Publicly shareable studio wishlist snapshot for colleagues and salon co-founders.",
+      "type": "object",
+      "properties": {
+        "shareId": {
+          "type": "string",
+          "description": "Unique share token ID matching the document ID.",
+          "minLength": 4,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Authenticated Firebase UID of the studio owner who published the wishlist.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "studioName": {
+          "type": "string",
+          "description": "Studio crest displayed on the shared wishlist view.",
+          "minLength": 1,
+          "maxLength": 42
+        },
+        "productIds": {
+          "type": "array",
+          "description": "Bounded array of product IDs included in the shared wishlist (1 to 30 items)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp."
+        }
+      },
+      "required": [
+        "shareId",
+        "ownerId",
+        "studioName",
+        "productIds",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "ProductReview": {
+      "title": "ProductReview",
+      "description": "Verified studio review for a 7SEVENVII7SOLUTIONS product or package.",
+      "type": "object",
+      "properties": {
+        "reviewId": {
+          "type": "string",
+          "description": "Unique review document ID.",
+          "minLength": 4,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "productId": {
+          "type": "string",
+          "description": "Catalog product ID being reviewed.",
+          "minLength": 2,
+          "maxLength": 64,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorId": {
+          "type": "string",
+          "description": "Authenticated Firebase UID of the reviewer.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Display name of the studio reviewer.",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "studioName": {
+          "type": "string",
+          "description": "Name of the reviewer's salon or aesthetic studio.",
+          "minLength": 1,
+          "maxLength": 45
+        },
+        "rating": {
+          "type": "number",
+          "description": "Integer star rating from 1 to 5."
+        },
+        "quote": {
+          "type": "string",
+          "description": "Editorial review commentary.",
+          "minLength": 2,
+          "maxLength": 220
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server update timestamp."
+        }
+      },
+      "required": [
+        "reviewId",
+        "productId",
+        "authorId",
+        "authorName",
+        "studioName",
+        "rating",
+        "quote",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/studios/{userId}": {
+      "schema": {
+        "$ref": "#/entities/StudioProfile"
+      },
+      "description": "Owner-isolated studio profile storing saved studio crest, brand palette preferences, and wishlist product IDs."
+    },
+    "/studios/{userId}/orders/{orderId}": {
+      "schema": {
+        "$ref": "#/entities/StudioOrder"
+      },
+      "description": "Subcollection of studio orders synchronized with the parent studio profile for order tracking and one-click reordering."
+    },
+    "/sharedWishlists/{shareId}": {
+      "schema": {
+        "$ref": "#/entities/SharedWishlist"
+      },
+      "description": "Cloud-shared studio wishlist snapshots accessible via unique shareId token."
+    },
+    "/productReviews/{reviewId}": {
+      "schema": {
+        "$ref": "#/entities/ProductReview"
+      },
+      "description": "Verified studio reviews attached to catalog items."
+    }
+  }
+}
