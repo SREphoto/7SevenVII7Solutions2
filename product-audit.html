@@ -1,0 +1,1324 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7SEVENVII7 — Product &amp; Asset Audit Tool</title>
+    <style>
+      :root {
+        --bg: #f8f6f1;
+        --surface: #ffffff;
+        --ink: #141414;
+        --muted: #66635b;
+        --border: #d8d3c8;
+        --gold: #ab8436;
+        --ok: #1f6f43;
+        --warn: #b45309;
+        --bad: #b91c1c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.45;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: var(--ink);
+        color: var(--bg);
+        padding: 14px 24px;
+        border-bottom: 2px solid var(--gold);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 16px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      header .sub {
+        font-size: 12px;
+        color: #d6d0c4;
+      }
+      .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      button,
+      select,
+      input[type="text"] {
+        font: inherit;
+      }
+      .btn {
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--ink);
+        padding: 7px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .btn:hover {
+        border-color: var(--ink);
+      }
+      .btn-gold {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #fff;
+      }
+      .btn-gold:hover {
+        filter: brightness(0.92);
+      }
+      .btn-dark {
+        background: #272727;
+        border-color: #444;
+        color: var(--bg);
+      }
+      .toolbar {
+        max-width: 1440px;
+        margin: 18px auto 0;
+        padding: 0 24px;
+        display: grid;
+        grid-template-columns: 2fr repeat(4, minmax(140px, 1fr));
+        gap: 10px;
+      }
+      @media (max-width: 960px) {
+        .toolbar {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .toolbar input,
+      .toolbar select {
+        width: 100%;
+        padding: 9px 11px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .stats {
+        max-width: 1440px;
+        margin: 12px auto 0;
+        padding: 0 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .stats strong {
+        color: var(--ink);
+      }
+      .grid {
+        max-width: 1440px;
+        margin: 16px auto 48px;
+        padding: 0 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 16px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+      }
+      .card.status-wrong {
+        border-color: var(--bad);
+        box-shadow: inset 0 0 0 1px var(--bad);
+      }
+      .card.status-ok {
+        border-color: var(--ok);
+      }
+      .media-wrap {
+        position: relative;
+        background: #ece8df;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+      }
+      .media-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .badge-row {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        display: flex;
+        justify-content: space-between;
+        gap: 6px;
+        pointer-events: none;
+      }
+      .badge {
+        background: rgba(20, 20, 20, 0.85);
+        color: #f8f6f1;
+        padding: 3px 7px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .badge.reused {
+        background: var(--warn);
+        color: #fff;
+      }
+      .badge.broken {
+        background: var(--bad);
+        color: #fff;
+      }
+      .card-body {
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        flex: 1;
+      }
+      .meta-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .id-code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 11px;
+        background: #f1eee7;
+        padding: 2px 6px;
+        border: 1px solid var(--border);
+        display: inline-block;
+        word-break: break-all;
+      }
+      .asset-box {
+        background: #faf9f6;
+        border: 1px solid var(--border);
+        padding: 8px 10px;
+        font-size: 11px;
+      }
+      .asset-box .label {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin-bottom: 3px;
+      }
+      .asset-path {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        word-break: break-all;
+        color: var(--ink);
+      }
+      .gallery-strip {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .gallery-thumb {
+        width: 54px;
+        border: 1px solid var(--border);
+        background: #fff;
+        padding: 2px;
+        font-size: 9px;
+        text-align: center;
+      }
+      .gallery-thumb img {
+        width: 100%;
+        height: 40px;
+        object-fit: cover;
+        display: block;
+        margin-bottom: 2px;
+      }
+      .status-controls {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-top: auto;
+      }
+      .status-btn {
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 6px 4px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .status-btn.active-ok {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: #fff;
+      }
+      .status-btn.active-wrong {
+        background: var(--bad);
+        border-color: var(--bad);
+        color: #fff;
+      }
+      .status-btn.active-unreviewed {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: #fff;
+      }
+      textarea.note {
+        width: 100%;
+        min-height: 46px;
+        resize: vertical;
+        border: 1px solid var(--border);
+        padding: 6px 8px;
+        font-size: 12px;
+        font-family: inherit;
+      }
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        z-index: 50;
+      }
+      .modal-backdrop.open {
+        display: flex;
+      }
+      .modal {
+        background: var(--surface);
+        border: 1px solid var(--ink);
+        max-width: 780px;
+        width: 100%;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        padding: 18px;
+        gap: 12px;
+      }
+      .modal pre {
+        margin: 0;
+        background: #f3f0e9;
+        border: 1px solid var(--border);
+        padding: 12px;
+        overflow: auto;
+        font-size: 12px;
+        flex: 1;
+        white-space: pre-wrap;
+      }
+      .hierarchy-panel {
+        max-width: 1440px;
+        margin: 16px auto 0;
+        padding: 0 24px;
+      }
+      .hierarchy-box {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 14px 16px;
+      }
+      .hierarchy-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .hierarchy-tree {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 10px;
+      }
+      .tree-col {
+        border: 1px solid var(--border);
+        background: #faf9f6;
+        padding: 10px;
+      }
+      .tree-l1 {
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+      }
+      .tree-l1:hover {
+        color: var(--gold);
+      }
+      .tree-l2-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .tree-pill {
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 3px 7px;
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .tree-pill:hover,
+      .tree-pill.active {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: var(--bg);
+      }
+      .blank-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 18px;
+        background: repeating-linear-gradient(
+          -45deg,
+          #f3efe6,
+          #f3efe6 10px,
+          #ece7dc 10px,
+          #ece7dc 20px
+        );
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .blank-placeholder strong {
+        color: var(--ink);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-size: 11px;
+        margin-bottom: 4px;
+      }
+      .pomelli-box {
+        background: #f5f1e8;
+        border: 1px solid #d5c8aa;
+        padding: 8px 10px;
+        font-size: 11px;
+      }
+      .pomelli-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
+      }
+      .pomelli-head span {
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #7c5d20;
+        font-size: 10px;
+      }
+      .pomelli-text {
+        font-size: 11px;
+        color: var(--ink);
+        line-height: 1.4;
+        max-height: 82px;
+        overflow: auto;
+      }
+      .shot-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        margin-bottom: 6px;
+      }
+      .shot-controls select {
+        width: 100%;
+        padding: 4px 6px;
+        border: 1px solid #d5c8aa;
+        background: #fff;
+        font-size: 10px;
+        color: var(--ink);
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .form-grid label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 4px;
+      }
+      .form-grid input,
+      .form-grid select,
+      .form-grid textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid var(--border);
+        font: inherit;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>7SEVENVII7 · Product &amp; Asset Audit Tool</h1>
+        <div class="sub">Live-parsed from <code>./index.html</code> · Review every product, primary image, and gallery asset</div>
+      </div>
+      <div class="header-actions">
+        <a href="./index.html" class="btn btn-dark" style="text-decoration: none;">← Back to Site</a>
+        <a href="./startup-intel.html" class="btn btn-dark" style="text-decoration: none;">Startup &amp; Lead Intel →</a>
+        <button type="button" id="add-blank-btn" class="btn btn-gold">+ Add Blank Product</button>
+        <button type="button" id="export-btn" class="btn btn-gold">Export Fix List</button>
+        <button type="button" id="reset-btn" class="btn btn-dark">Reset Marks</button>
+      </div>
+    </header>
+
+    <section class="hierarchy-panel" aria-label="Industry Hierarchy">
+      <div class="hierarchy-box">
+        <div class="hierarchy-head">
+          <span>3-Level Industry Hierarchy (Level 1 Industry › Level 2 Sub-Industry › Level 3 Products)</span>
+          <button type="button" id="clear-hierarchy-btn" class="btn" style="padding: 4px 8px; font-size: 10px;">Show All</button>
+        </div>
+        <div class="hierarchy-tree" id="hierarchy-tree"></div>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="Filters">
+      <input type="text" id="search-input" placeholder="Search by name, id, or image filename..." />
+      <select id="category-filter">
+        <option value="all">All Categories</option>
+        <option value="physical">Physical</option>
+        <option value="digital">Digital</option>
+        <option value="packages">Packages</option>
+      </select>
+      <select id="industry-filter">
+        <option value="all">All Level 1 Industries</option>
+      </select>
+      <select id="subindustry-filter">
+        <option value="all">All Level 2 Sub-Industries</option>
+      </select>
+      <select id="code-filter">
+        <option value="all">All Product Codes</option>
+        <option value="__shared__">Shared Product Codes Only</option>
+      </select>
+      <select id="asset-filter">
+        <option value="all">All Asset States</option>
+        <option value="planned">Blank / Planned Ideas Only</option>
+        <option value="reused">Shared / Reused Image</option>
+        <option value="unique">Unique Image Only</option>
+        <option value="broken">Broken / Missing Image</option>
+      </select>
+      <select id="review-filter">
+        <option value="all">All Review Statuses</option>
+        <option value="wrong">Flagged: Needs Fix</option>
+        <option value="unreviewed">Unreviewed</option>
+        <option value="ok">Marked OK</option>
+      </select>
+    </section>
+
+    <div class="stats" id="stats-bar">Loading products from <code>./index.html</code>...</div>
+    <main class="grid" id="product-grid"></main>
+
+    <div class="modal-backdrop" id="export-modal">
+      <div class="modal">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <strong>Flagged Products &amp; Notes (Copy &amp; Paste)</strong>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" id="copy-export-btn" class="btn btn-gold">Copy Text</button>
+            <button type="button" id="close-export-btn" class="btn">Close</button>
+          </div>
+        </div>
+        <pre id="export-output"></pre>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="blank-modal">
+      <div class="modal">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <strong>Add Blank / Planned Product Idea (Generates Pomelli Prompt)</strong>
+          <button type="button" id="close-blank-btn" class="btn">Close</button>
+        </div>
+        <form id="blank-form" class="form-grid">
+          <div>
+            <label for="blank-name">Product Name</label>
+            <input id="blank-name" type="text" required placeholder="e.g. Medspa Laser Consultation QR Block" />
+          </div>
+          <div>
+            <label for="blank-code">Product Code (SKU)</label>
+            <input id="blank-code" type="text" required placeholder="e.g. 7V-QR-BLOCK" />
+          </div>
+          <div>
+            <label for="blank-industry">Level 1 Industry</label>
+            <input id="blank-industry" type="text" required placeholder="e.g. beauty-wellness" />
+          </div>
+          <div>
+            <label for="blank-subindustry">Level 2 Sub-Industry</label>
+            <input id="blank-subindustry" type="text" required placeholder="e.g. medspas" />
+          </div>
+          <div>
+            <label for="blank-category">Category</label>
+            <select id="blank-category">
+              <option value="physical">physical</option>
+              <option value="digital">digital</option>
+              <option value="packages">packages</option>
+            </select>
+          </div>
+          <div>
+            <label for="blank-price">Price ($)</label>
+            <input id="blank-price" type="number" value="65" min="1" />
+          </div>
+          <div style="grid-column: 1 / -1;">
+            <label for="blank-desc">Scene / Product Details for Pomelli Prompt</label>
+            <textarea id="blank-desc" rows="2" placeholder="Describe how the product is used in this specific industry..."></textarea>
+          </div>
+          <div style="grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px;">
+            <button type="submit" class="btn btn-gold">Create Blank Card</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const STORAGE_KEY = '7vii7_product_audit_v1';
+      const PLANNED_KEY = '7vii7_planned_products_v1';
+      const DEFAULT_PLANNED_PRODUCTS = [
+        {
+          id: 'idea-medspa-qr-block',
+          name: 'Medspa Aesthetic Check-In & Consent QR Block',
+          price: 68,
+          category: 'physical',
+          industry: 'beauty-wellness',
+          subIndustry: 'medspas',
+          productCode: '7V-QR-BLOCK',
+          typeLabel: 'Planned Idea · Medspas',
+          description: 'Engraved 25mm matte obsidian & champagne brass QR monolith on a travertine medspa reception counter beside frosted glass vials and injectable consultation tablet.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-medspa-clinical-coat',
+          name: 'Medspa Injector Tailored Clinical Coat',
+          price: 118,
+          category: 'physical',
+          industry: 'beauty-wellness',
+          subIndustry: 'medspas',
+          productCode: '7V-CLINICAL-COAT',
+          typeLabel: 'Planned Idea · Medspas',
+          description: 'Nurse practitioner / aesthetic injector wearing tailored charcoal or cream clinical coat with subtle champagne gold chest monogram inside a sunlit travertine medspa treatment suite.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-dental-comfort-mug',
+          name: 'Cosmetic Dental Comfort Menu Mug & Pen Set',
+          price: 48,
+          category: 'physical',
+          industry: 'professional-medical',
+          subIndustry: 'doctors',
+          productCode: '7V-MUG-PEN',
+          typeLabel: 'Planned Idea · Boutique Dental',
+          description: 'Matte alabaster & obsidian ceramic hospitality mugs and weighted brushed-brass pen on a spa-dental consultation table with linen comfort menu.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-pet-grooming-apron',
+          name: 'Luxury Pet Spa Waterproof Grooming Apron',
+          price: 88,
+          category: 'physical',
+          industry: 'beauty-wellness',
+          subIndustry: 'pet-grooming-vet',
+          productCode: '7V-APRON-WAXED',
+          typeLabel: 'Planned Idea · Pet Grooming & Vet',
+          description: 'Hair- and water-repellent waxed charcoal canvas grooming apron with cognac leather cross-back straps and brass hardware worn in a bright luxury pet spa.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-pet-lobby-mat',
+          name: 'Boutique Pet Spa & Vet Threshold Mat',
+          price: 135,
+          category: 'physical',
+          industry: 'beauty-wellness',
+          subIndustry: 'pet-grooming-vet',
+          productCode: '7V-FLOOR-MAT',
+          typeLabel: 'Planned Idea · Pet Grooming & Vet',
+          description: 'Heavy-duty low-profile champagne and obsidian custom entryway floor mat inside a modern cage-free pet grooming boutique.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-tattoo-studio-apron',
+          name: 'Fine-Line Tattoo Artist Charcoal Apron',
+          price: 92,
+          category: 'physical',
+          industry: 'beauty-wellness',
+          subIndustry: 'tattoo-studios',
+          productCode: '7V-APRON',
+          typeLabel: 'Planned Idea · Tattoo Studios',
+          description: 'Architectural matte obsidian twill studio apron with brass hardware and custom chest monogram worn by a fine-line tattoo artist in an editorial studio.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-realestate-portfolio',
+          name: 'Boutique Real Estate Closing Leather Portfolio',
+          price: 145,
+          category: 'physical',
+          industry: 'professional-medical',
+          subIndustry: 'real-estate-advisory',
+          productCode: '7V-PORTFOLIO',
+          typeLabel: 'Planned Idea · Real Estate & Wealth',
+          description: 'Embossed obsidian full-grain leather closing folio with champagne gold monogram, brass pen, and 600gsm cotton welcome stationery on a walnut conference table.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-barber-heated-towels',
+          name: 'Barber Lounge Hot-Towel & Brass Tray Set',
+          price: 64,
+          category: 'physical',
+          industry: 'beauty-wellness',
+          subIndustry: 'barber-lounges',
+          productCode: '7V-HEATED-TOWEL',
+          typeLabel: 'Planned Idea · Barber Lounges',
+          description: 'Six rolled 600gsm charcoal & cream cotton hot towels in a brushed-brass presentation tray beside a vintage-modern leather barber chair.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-coffee-matcha-apron',
+          name: 'Specialty Coffee & Matcha Barista Linen Apron',
+          price: 74,
+          category: 'physical',
+          industry: 'hospitality-culinary',
+          subIndustry: 'coffee-matcha-bars',
+          productCode: '7V-APRON',
+          typeLabel: 'Planned Idea · Coffee & Matcha Bars',
+          description: 'Organic alabaster & charcoal linen barista apron with brass strap hardware worn behind a travertine espresso and ceremonial matcha bar.',
+          isPlanned: true,
+        },
+        {
+          id: 'idea-detailing-shop-jacket',
+          name: 'Exotic Auto Detailing & PPF Studio Work Jacket',
+          price: 128,
+          category: 'physical',
+          industry: 'automotive-trades',
+          subIndustry: 'auto-detailing',
+          productCode: '7V-SHOP-JACKET',
+          typeLabel: 'Planned Idea · Auto Detailing & PPF',
+          description: 'Tailored charcoal microfiber-safe detailing work jacket with tonal champagne chest crest inside a clean, moody exotic car PPF bay.',
+          isPlanned: true,
+        },
+      ];
+
+      let BASE_PRODUCTS = [];
+      let PRODUCTS = [];
+      let imageCounts = {};
+      let codeCounts = {};
+      let brokenImages = new Set();
+      let auditState = loadAuditState();
+
+      function loadCustomPlanned() {
+        try {
+          return JSON.parse(localStorage.getItem(PLANNED_KEY) || '[]');
+        } catch {
+          return [];
+        }
+      }
+
+      function saveCustomPlanned(list) {
+        localStorage.setItem(PLANNED_KEY, JSON.stringify(list));
+      }
+
+      const SHOT_GENDERS = ['Studio / No Model', 'Female Model', 'Male Model'];
+      const SHOT_COLORS = ['Brand Default', 'Obsidian Black', 'Warm Alabaster', 'Champagne Sand', 'Stone Taupe', 'Charcoal & Cognac'];
+      const SHOT_STATES = ['In Use (Industry Scene)', 'Worn / Modeled', 'Folded / Flat-Lay', 'Hanging / Displayed', 'Step-and-Repeat Logo Pattern'];
+      const SHOT_ANGLES = ['Front View', 'Back View', '3/4 Side Profile', 'Macro Detail (Stitching / Texture / Engraving)'];
+      let shotConfigs = {};
+
+      function getShotConfig(p) {
+        if (shotConfigs[p.id]) return shotConfigs[p.id];
+        const isApparel = p.configType === 'apparel' || /apron|shirt|tee|hoodie|crewneck|robe|coat|jacket|beanie|cape/i.test(p.name);
+        return {
+          gender: isApparel ? 'Female Model' : 'Studio / No Model',
+          color: 'Brand Default',
+          state: isApparel ? 'Worn / Modeled' : 'In Use (Industry Scene)',
+          angle: 'Front View',
+        };
+      }
+
+      function buildPomelliPrompt(p, cfg = getShotConfig(p)) {
+        const sub = (p.subIndustry || p.industry || 'luxury studio').replace(/-/g, ' ');
+        const scene = p.description || p.alt || p.name;
+        const genderPhrase =
+          cfg.gender === 'Studio / No Model'
+            ? 'no model (product-focused studio shot)'
+            : `${cfg.gender.toLowerCase()} wearing/using the product`;
+        const colorPhrase = cfg.color === 'Brand Default' ? 'signature 7SEVENVII7 colorway' : `${cfg.color} colorway`;
+        return [
+          `Editorial 4:3 product photography for 7SEVENVII7 SOLUTIONS:`,
+          `${p.name}${p.productCode ? ` (SKU ${p.productCode})` : ''} — ${colorPhrase}, ${cfg.state}, ${cfg.angle}, ${genderPhrase},`,
+          `set in an active ${sub} environment.`,
+          `${scene}`,
+          `Aesthetic: warm alabaster (#F8F6F1), matte obsidian (#141414), brushed champagne gold (#AB8436), natural travertine stone, soft architectural daylight, crisp studio focus, no text overlays or watermarks.`
+        ].join(' ');
+      }
+
+      function buildAllShotPrompts(p) {
+        const isApparel = p.configType === 'apparel' || /apron|shirt|tee|hoodie|crewneck|robe|coat|jacket|beanie|cape/i.test(p.name);
+        const genders = isApparel ? ['Female Model', 'Male Model'] : ['Studio / No Model'];
+        const colors = ['Obsidian Black', 'Warm Alabaster'];
+        const shots = [
+          { state: 'Worn / Modeled', angle: 'Front View' },
+          { state: 'Worn / Modeled', angle: 'Back View' },
+          { state: 'In Use (Industry Scene)', angle: '3/4 Side Profile' },
+          { state: 'Folded / Flat-Lay', angle: 'Macro Detail (Stitching / Texture / Engraving)' },
+        ];
+        const lines = [`=== ${p.id} | ${p.name} (${p.productCode || 'NO-SKU'}) ===`];
+        for (const gender of genders) {
+          for (const color of colors) {
+            for (const s of shots) {
+              if (!isApparel && s.state === 'Worn / Modeled') continue;
+              const cfg = { gender, color, state: s.state, angle: s.angle };
+              lines.push(`\n[${gender} | ${color} | ${s.state} | ${s.angle}]\n${buildPomelliPrompt(p, cfg)}`);
+            }
+          }
+        }
+        return lines.join('\n');
+      }
+
+      function loadAuditState() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        } catch {
+          return {};
+        }
+      }
+
+      function saveAuditState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(auditState));
+      }
+
+      function getEntryState(id) {
+        return auditState[id] || { status: 'unreviewed', note: '' };
+      }
+
+      function setEntryState(id, patch) {
+        auditState[id] = { ...getEntryState(id), ...patch };
+        saveAuditState();
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function rebuildCatalogAndFilters() {
+        PRODUCTS = [...BASE_PRODUCTS, ...DEFAULT_PLANNED_PRODUCTS, ...loadCustomPlanned()];
+
+        imageCounts = {};
+        codeCounts = {};
+        for (const p of PRODUCTS) {
+          if (p.image) {
+            imageCounts[p.image] = (imageCounts[p.image] || 0) + 1;
+          }
+          if (p.productCode) {
+            codeCounts[p.productCode] = (codeCounts[p.productCode] || 0) + 1;
+          }
+        }
+
+        const industries = new Set();
+        const subIndustries = new Set();
+        const codes = new Set();
+        for (const p of PRODUCTS) {
+          if (p.industry) industries.add(p.industry);
+          if (p.subIndustry) subIndustries.add(p.subIndustry);
+          if (p.productCode) codes.add(p.productCode);
+        }
+
+        const indSel = document.getElementById('industry-filter');
+        const curInd = indSel.value;
+        indSel.innerHTML = '<option value="all">All Level 1 Industries</option>';
+        for (const g of [...industries].sort()) {
+          const opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = g;
+          indSel.appendChild(opt);
+        }
+        indSel.value = curInd;
+
+        const subSel = document.getElementById('subindustry-filter');
+        const curSub = subSel.value;
+        subSel.innerHTML = '<option value="all">All Level 2 Sub-Industries</option>';
+        for (const s of [...subIndustries].sort()) {
+          const opt = document.createElement('option');
+          opt.value = s;
+          opt.textContent = s;
+          subSel.appendChild(opt);
+        }
+        subSel.value = curSub;
+
+        const codeSel = document.getElementById('code-filter');
+        const curCode = codeSel.value;
+        codeSel.innerHTML = '<option value="all">All Product Codes</option><option value="__shared__">Shared Product Codes Only</option>';
+        for (const c of [...codes].sort()) {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = `${c} (${codeCounts[c]})`;
+          codeSel.appendChild(opt);
+        }
+        codeSel.value = curCode;
+
+        renderHierarchyTree();
+        render();
+      }
+
+      function renderHierarchyTree() {
+        const treeEl = document.getElementById('hierarchy-tree');
+        if (!treeEl) return;
+        const activeInd = document.getElementById('industry-filter').value;
+        const activeSub = document.getElementById('subindustry-filter').value;
+
+        const map = {};
+        for (const p of PRODUCTS) {
+          const l1 = p.industry || 'other';
+          const l2 = p.subIndustry || 'general';
+          if (!map[l1]) map[l1] = {};
+          map[l1][l2] = (map[l1][l2] || 0) + 1;
+        }
+
+        treeEl.innerHTML = Object.keys(map).sort().map((l1) => {
+          const subs = map[l1];
+          const l1Count = Object.values(subs).reduce((a, b) => a + b, 0);
+          return `
+            <div class="tree-col">
+              <div class="tree-l1" data-tree-l1="${escapeHtml(l1)}" style="${activeInd === l1 && activeSub === 'all' ? 'color:var(--gold);' : ''}">
+                <span>${escapeHtml(l1)}</span>
+                <span>${l1Count}</span>
+              </div>
+              <div class="tree-l2-list">
+                ${Object.keys(subs).sort().map((l2) => `
+                  <button type="button" class="tree-pill ${activeSub === l2 ? 'active' : ''}" data-tree-l1="${escapeHtml(l1)}" data-tree-l2="${escapeHtml(l2)}">
+                    ${escapeHtml(l2)} (${subs[l2]})
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      async function loadProducts() {
+        const res = await fetch('./index.html', { cache: 'no-store' });
+        const html = await res.text();
+        const match = html.match(/const PRODUCTS = (\[[\s\S]*?\n\s*\]);/);
+        if (!match) {
+          throw new Error('Could not locate const PRODUCTS = [...] in index.html');
+        }
+        BASE_PRODUCTS = new Function(`return (${match[1]});`)();
+        rebuildCatalogAndFilters();
+      }
+
+      function getFiltered() {
+        const q = document.getElementById('search-input').value.trim().toLowerCase();
+        const cat = document.getElementById('category-filter').value;
+        const ind = document.getElementById('industry-filter').value;
+        const sub = document.getElementById('subindustry-filter').value;
+        const code = document.getElementById('code-filter').value;
+        const asset = document.getElementById('asset-filter').value;
+        const rev = document.getElementById('review-filter').value;
+
+        return PRODUCTS.filter((p) => {
+          if (cat !== 'all' && p.category !== cat) return false;
+          if (ind !== 'all' && p.industry !== ind) return false;
+          if (sub !== 'all' && p.subIndustry !== sub) return false;
+          if (code === '__shared__' && (codeCounts[p.productCode] || 0) <= 1) return false;
+          if (code !== 'all' && code !== '__shared__' && p.productCode !== code) return false;
+
+          const count = p.image ? (imageCounts[p.image] || 1) : 0;
+          if (asset === 'planned' && !p.isPlanned) return false;
+          if (asset === 'reused' && (p.isPlanned || count <= 1)) return false;
+          if (asset === 'unique' && (p.isPlanned || count > 1)) return false;
+          if (asset === 'broken' && !brokenImages.has(p.id)) return false;
+
+          const st = getEntryState(p.id).status;
+          if (rev !== 'all' && st !== rev) return false;
+
+          if (q) {
+            const hay = [
+              p.id,
+              p.productCode,
+              p.name,
+              p.image,
+              p.typeLabel,
+              p.industry,
+              p.subIndustry,
+              p.digitalGroup,
+              ...(p.gallery || []).map((g) => g.src),
+            ]
+              .filter(Boolean)
+              .join(' ')
+              .toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+      }
+
+      function updateStats(filtered) {
+        const total = PRODUCTS.length;
+        const reusedCount = PRODUCTS.filter((p) => (imageCounts[p.image] || 0) > 1).length;
+        const wrongCount = PRODUCTS.filter((p) => getEntryState(p.id).status === 'wrong').length;
+        const okCount = PRODUCTS.filter((p) => getEntryState(p.id).status === 'ok').length;
+        document.getElementById('stats-bar').innerHTML = `
+          <span>Showing <strong>${filtered.length}</strong> of <strong>${total}</strong> products</span>
+          <span>Shared/reused primary image: <strong>${reusedCount}</strong></span>
+          <span>Flagged (Needs Fix): <strong style="color:var(--bad)">${wrongCount}</strong></span>
+          <span>Marked OK: <strong style="color:var(--ok)">${okCount}</strong></span>
+          <span>Broken images detected: <strong style="color:var(--bad)">${brokenImages.size}</strong></span>
+        `;
+      }
+
+      function render() {
+        const filtered = getFiltered();
+        updateStats(filtered);
+        const grid = document.getElementById('product-grid');
+
+        grid.innerHTML = filtered
+          .map((p) => {
+            const st = getEntryState(p.id);
+            const useCount = p.image ? (imageCounts[p.image] || 1) : 0;
+            const statusClass =
+              st.status === 'wrong' ? 'status-wrong' : st.status === 'ok' ? 'status-ok' : '';
+            const gallery = Array.isArray(p.gallery) ? p.gallery : [];
+            const pomelliPrompt = buildPomelliPrompt(p);
+            const targetFile = p.image || `./src/assets/images/${p.id}.jpg`;
+
+            return `
+              <article class="card ${statusClass}" data-id="${escapeHtml(p.id)}">
+                <div class="media-wrap">
+                  ${
+                    p.isPlanned || !p.image
+                      ? `<div class="blank-placeholder">
+                           <strong>Blank / Planned Product</strong>
+                           <span>Copy Pomelli prompt below to generate image</span>
+                           <span style="margin-top:6px;font-family:monospace;font-size:10px;">${escapeHtml(targetFile)}</span>
+                         </div>`
+                      : `<img
+                           src="${escapeHtml(p.image)}"
+                           alt="${escapeHtml(p.alt || p.name)}"
+                           loading="lazy"
+                           data-prod-img="${escapeHtml(p.id)}"
+                         />`
+                  }
+                  <div class="badge-row">
+                    <span class="badge">${escapeHtml(p.industry || p.category)}${p.subIndustry ? ' › ' + escapeHtml(p.subIndustry) : ''}</span>
+                    ${
+                      p.isPlanned
+                        ? `<span class="badge reused">Blank Idea</span>`
+                        : useCount > 1
+                        ? `<span class="badge reused">Shared Img ×${useCount}</span>`
+                        : `<span class="badge">Unique Img</span>`
+                    }
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="meta-line">
+                    <span>${escapeHtml(p.typeLabel || '')}</span>
+                    <strong>$${escapeHtml(p.price)}</strong>
+                  </div>
+                  <h2 class="title">${escapeHtml(p.name)}</h2>
+                  <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+                    <span class="id-code">${escapeHtml(p.id)}</span>
+                    ${p.productCode ? `<span class="id-code" style="background:#efe7d3;border-color:#ab8436;">${escapeHtml(p.productCode)}${(codeCounts[p.productCode] || 0) > 1 ? ' (×' + codeCounts[p.productCode] + ' industries)' : ''}</span>` : ''}
+                  </div>
+
+                  <div class="asset-box">
+                    <div class="label">${p.isPlanned ? 'Target Image Path' : 'Primary Image'}</div>
+                    <div class="asset-path">${escapeHtml(targetFile)}</div>
+                    ${
+                      gallery.length
+                        ? `
+                      <div class="label" style="margin-top:8px;">Gallery (${gallery.length})</div>
+                      <div class="gallery-strip">
+                        ${gallery
+                          .map(
+                            (g) => `
+                          <div class="gallery-thumb" title="${escapeHtml(g.src)}">
+                            <img src="${escapeHtml(g.src)}" alt="${escapeHtml(g.alt || '')}" loading="lazy" />
+                            <div>${escapeHtml(g.label || 'Img')}</div>
+                          </div>
+                        `
+                          )
+                          .join('')}
+                      </div>
+                    `
+                        : ''
+                    }
+                  </div>
+
+                  <div class="pomelli-box">
+                    <div class="pomelli-head">
+                      <span>Pomelli Shot Prompt</span>
+                      <div style="display:flex;gap:4px;">
+                        <button type="button" class="btn btn-gold" style="padding:3px 7px;font-size:10px;" data-copy-prompt="${escapeHtml(p.id)}">Copy Prompt</button>
+                        <button type="button" class="btn" style="padding:3px 7px;font-size:10px;" data-copy-matrix="${escapeHtml(p.id)}">Copy All Shots</button>
+                      </div>
+                    </div>
+                    <div class="shot-controls">
+                      <select data-shot-field="gender" data-shot-id="${escapeHtml(p.id)}" aria-label="Model / Gender">
+                        ${SHOT_GENDERS.map((g) => `<option value="${escapeHtml(g)}" ${getShotConfig(p).gender === g ? 'selected' : ''}>${escapeHtml(g)}</option>`).join('')}
+                      </select>
+                      <select data-shot-field="color" data-shot-id="${escapeHtml(p.id)}" aria-label="Colorway">
+                        ${SHOT_COLORS.map((c) => `<option value="${escapeHtml(c)}" ${getShotConfig(p).color === c ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('')}
+                      </select>
+                      <select data-shot-field="state" data-shot-id="${escapeHtml(p.id)}" aria-label="Image State">
+                        ${SHOT_STATES.map((s) => `<option value="${escapeHtml(s)}" ${getShotConfig(p).state === s ? 'selected' : ''}>${escapeHtml(s)}</option>`).join('')}
+                      </select>
+                      <select data-shot-field="angle" data-shot-id="${escapeHtml(p.id)}" aria-label="Camera Angle">
+                        ${SHOT_ANGLES.map((a) => `<option value="${escapeHtml(a)}" ${getShotConfig(p).angle === a ? 'selected' : ''}>${escapeHtml(a)}</option>`).join('')}
+                      </select>
+                    </div>
+                    <div class="pomelli-text" id="pomelli-text-${escapeHtml(p.id)}">${escapeHtml(pomelliPrompt)}</div>
+                  </div>
+
+                  <textarea
+                    class="note"
+                    placeholder="Notes on what needs to be fixed..."
+                    data-note-for="${escapeHtml(p.id)}"
+                  >${escapeHtml(st.note)}</textarea>
+
+                  <div class="status-controls">
+                    <button
+                      type="button"
+                      class="status-btn ${st.status === 'ok' ? 'active-ok' : ''}"
+                      data-set-status="ok"
+                      data-target="${escapeHtml(p.id)}"
+                    >OK</button>
+                    <button
+                      type="button"
+                      class="status-btn ${st.status === 'wrong' ? 'active-wrong' : ''}"
+                      data-set-status="wrong"
+                      data-target="${escapeHtml(p.id)}"
+                    >Needs Fix</button>
+                    <button
+                      type="button"
+                      class="status-btn ${st.status === 'unreviewed' ? 'active-unreviewed' : ''}"
+                      data-set-status="unreviewed"
+                      data-target="${escapeHtml(p.id)}"
+                    >Reset</button>
+                  </div>
+                </div>
+              </article>
+            `;
+          })
+          .join('');
+
+        grid.querySelectorAll('img[data-prod-img]').forEach((img) => {
+          img.addEventListener('error', () => {
+            const id = img.getAttribute('data-prod-img');
+            if (id && !brokenImages.has(id)) {
+              brokenImages.add(id);
+              const row = img.closest('.media-wrap')?.querySelector('.badge-row');
+              if (row) {
+                const b = document.createElement('span');
+                b.className = 'badge broken';
+                b.textContent = 'Broken';
+                row.appendChild(b);
+              }
+              updateStats(filtered);
+            }
+          });
+        });
+      }
+
+      document.getElementById('product-grid').addEventListener('change', (e) => {
+        const sel = e.target.closest('select[data-shot-field]');
+        if (!sel) return;
+        const id = sel.getAttribute('data-shot-id');
+        const field = sel.getAttribute('data-shot-field');
+        const prod = PRODUCTS.find((p) => p.id === id);
+        if (!prod) return;
+        shotConfigs[id] = { ...getShotConfig(prod), [field]: sel.value };
+        const textEl = document.getElementById(`pomelli-text-${id}`);
+        if (textEl) textEl.textContent = buildPomelliPrompt(prod, shotConfigs[id]);
+      });
+
+      document.getElementById('product-grid').addEventListener('click', async (e) => {
+        const matrixBtn = e.target.closest('button[data-copy-matrix]');
+        if (matrixBtn) {
+          const id = matrixBtn.getAttribute('data-copy-matrix');
+          const prod = PRODUCTS.find((p) => p.id === id);
+          if (prod) {
+            await navigator.clipboard.writeText(buildAllShotPrompts(prod));
+            matrixBtn.textContent = 'Copied!';
+            setTimeout(() => (matrixBtn.textContent = 'Copy All Shots'), 1300);
+          }
+          return;
+        }
+        const copyBtn = e.target.closest('button[data-copy-prompt]');
+        if (copyBtn) {
+          const id = copyBtn.getAttribute('data-copy-prompt');
+          const prod = PRODUCTS.find((p) => p.id === id);
+          if (prod) {
+            await navigator.clipboard.writeText(buildPomelliPrompt(prod));
+            copyBtn.textContent = 'Copied!';
+            setTimeout(() => (copyBtn.textContent = 'Copy Prompt'), 1300);
+          }
+          return;
+        }
+        const btn = e.target.closest('button[data-set-status]');
+        if (!btn) return;
+        const id = btn.getAttribute('data-target');
+        const status = btn.getAttribute('data-set-status');
+        setEntryState(id, { status });
+        render();
+      });
+
+      document.getElementById('hierarchy-tree').addEventListener('click', (e) => {
+        const l2Btn = e.target.closest('[data-tree-l2]');
+        if (l2Btn) {
+          document.getElementById('industry-filter').value = l2Btn.getAttribute('data-tree-l1');
+          document.getElementById('subindustry-filter').value = l2Btn.getAttribute('data-tree-l2');
+          renderHierarchyTree();
+          render();
+          return;
+        }
+        const l1Btn = e.target.closest('[data-tree-l1]');
+        if (l1Btn) {
+          document.getElementById('industry-filter').value = l1Btn.getAttribute('data-tree-l1');
+          document.getElementById('subindustry-filter').value = 'all';
+          renderHierarchyTree();
+          render();
+        }
+      });
+
+      document.getElementById('clear-hierarchy-btn').addEventListener('click', () => {
+        document.getElementById('industry-filter').value = 'all';
+        document.getElementById('subindustry-filter').value = 'all';
+        document.getElementById('code-filter').value = 'all';
+        renderHierarchyTree();
+        render();
+      });
+
+      document.getElementById('add-blank-btn').addEventListener('click', () => {
+        document.getElementById('blank-modal').classList.add('open');
+      });
+
+      document.getElementById('close-blank-btn').addEventListener('click', () => {
+        document.getElementById('blank-modal').classList.remove('open');
+      });
+
+      document.getElementById('blank-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('blank-name').value.trim();
+        const productCode = document.getElementById('blank-code').value.trim().toUpperCase();
+        const industry = document.getElementById('blank-industry').value.trim().toLowerCase();
+        const subIndustry = document.getElementById('blank-subindustry').value.trim().toLowerCase();
+        const category = document.getElementById('blank-category').value;
+        const price = Number(document.getElementById('blank-price').value || 65);
+        const description = document.getElementById('blank-desc').value.trim();
+        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const list = loadCustomPlanned();
+        list.unshift({
+          id: `idea-${slug}-${Date.now().toString().slice(-4)}`,
+          name,
+          price,
+          category,
+          industry,
+          subIndustry,
+          productCode,
+          typeLabel: `Planned Idea · ${subIndustry}`,
+          description,
+          isPlanned: true,
+        });
+        saveCustomPlanned(list);
+        e.target.reset();
+        document.getElementById('blank-modal').classList.remove('open');
+        rebuildCatalogAndFilters();
+      });
+
+      document.getElementById('product-grid').addEventListener('input', (e) => {
+        const ta = e.target.closest('textarea[data-note-for]');
+        if (!ta) return;
+        setEntryState(ta.getAttribute('data-note-for'), { note: ta.value });
+      });
+
+      ['search-input', 'category-filter', 'industry-filter', 'subindustry-filter', 'code-filter', 'asset-filter', 'review-filter'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', render);
+        document.getElementById(id).addEventListener('change', render);
+      });
+
+      document.getElementById('export-btn').addEventListener('click', () => {
+        const flagged = PRODUCTS.filter((p) => {
+          const st = getEntryState(p.id);
+          return st.status === 'wrong' || st.note.trim().length > 0;
+        });
+
+        const lines = flagged.map((p) => {
+          const st = getEntryState(p.id);
+          return [
+            `- ${p.id} | ${p.name} (${p.category}${p.industry ? '/' + p.industry : ''})`,
+            `  Status: ${st.status}`,
+            `  Current image: ${p.image}`,
+            st.note.trim() ? `  Note: ${st.note.trim()}` : null,
+          ]
+            .filter(Boolean)
+            .join('\n');
+        });
+
+        document.getElementById('export-output').textContent =
+          lines.length > 0
+            ? `Flagged Products (${lines.length}):\n\n` + lines.join('\n\n')
+            : 'No products flagged yet. Mark products as "Needs Fix" or add a note first.';
+        document.getElementById('export-modal').classList.add('open');
+      });
+
+      document.getElementById('close-export-btn').addEventListener('click', () => {
+        document.getElementById('export-modal').classList.remove('open');
+      });
+
+      document.getElementById('copy-export-btn').addEventListener('click', async () => {
+        const txt = document.getElementById('export-output').textContent;
+        await navigator.clipboard.writeText(txt);
+        const btn = document.getElementById('copy-export-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => (btn.textContent = 'Copy Text'), 1400);
+      });
+
+      document.getElementById('reset-btn').addEventListener('click', () => {
+        if (!confirm('Clear all review marks and notes?')) return;
+        auditState = {};
+        saveAuditState();
+        render();
+      });
+
+      loadProducts().catch((err) => {
+        document.getElementById('stats-bar').textContent = 'Error: ' + err.message;
+      });
+    </script>
+  </body>
+</html>

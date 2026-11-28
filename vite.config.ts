@@ -1,8 +1,6 @@
 import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { gzipSync } from 'node:zlib';
-import type { IncomingMessage, ServerResponse } from 'node:http';
 import { defineConfig, type Plugin } from 'vite';
 
 const rootDir = dirname(fileURLToPath(import.meta.url));
@@ -16,6 +14,15 @@ const WRAPPER_META_FILES = new Set([
   'metadata.json',
   'vite.config.ts',
   'vite.config.mjs',
+  'firebase.json',
+  'firebase-applet-config.json',
+  'firebase-blueprint.json',
+  'firestore.rules',
+  'DRAFT_firestore.rules',
+  'firestore.rules.test.ts',
+  'security_spec.md',
+  'eslint.config.mjs',
+  'README.md',
 ]);
 
 const SKIP_DIRS = new Set([
@@ -26,6 +33,10 @@ const SKIP_DIRS = new Set([
   '.aistudio',
   '.build-outputs',
   'public',
+  'product_restore',
+  'images',
+  'scripts',
+  'workflows',
 ]);
 
 function discoverHtmlInputs(
@@ -143,7 +154,13 @@ function aisSyncStaticAndImportmapPlugin(table: ImportmapTable): Plugin {
       const outDir = resolve(rootDir, 'dist');
       function walk(dir: string): void {
         for (const entry of readdirSync(dir)) {
-          if (SKIP_DIRS.has(entry) || WRAPPER_META_FILES.has(entry) || entry.startsWith('.')) {
+          // Skip root ./images duplicate folder, while keeping nested ./src/assets/images referenced by index.html.
+          const isNestedImagesDir = entry === 'images' && dir !== rootDir;
+          if (
+            (!isNestedImagesDir && SKIP_DIRS.has(entry)) ||
+            WRAPPER_META_FILES.has(entry) ||
+            entry.startsWith('.')
+          ) {
             continue;
           }
           const full = join(dir, entry);
@@ -169,98 +186,13 @@ function aisSyncStaticAndImportmapPlugin(table: ImportmapTable): Plugin {
   };
 }
 
-function attachCompressionAndCdnMiddleware(
-  req: IncomingMessage,
-  res: ServerResponse,
-  next: () => void
-): void {
-  res.setHeader('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('Vary', 'Accept-Encoding');
-
-  const url = req.url || '/';
-  if (/\.(jpg|jpeg|png|webp|svg|mp4|woff2?)$/i.test(url)) {
-    res.setHeader('Cache-Control', 'public, max-age=31536000, s-maxage=31536000, immutable');
-    res.setHeader('CDN-Cache-Control', 'public, max-age=31536000, immutable');
-  } else {
-    res.setHeader('Cache-Control', 'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800');
-    res.setHeader('CDN-Cache-Control', 'public, max-age=86400');
-  }
-
-  const acceptEncoding = String(req.headers['accept-encoding'] || '');
-  if (!acceptEncoding.includes('gzip')) {
-    next();
-    return;
-  }
-
-  const origWrite = res.write.bind(res);
-  const origEnd = res.end.bind(res);
-  const chunks: Buffer[] = [];
-
-  res.write = ((chunk: unknown, encodingOrCb?: unknown, cb?: unknown): boolean => {
-    if (chunk) {
-      const buf = Buffer.isBuffer(chunk)
-        ? chunk
-        : Buffer.from(String(chunk), typeof encodingOrCb === 'string' ? (encodingOrCb as BufferEncoding) : 'utf-8');
-      chunks.push(buf);
-    }
-    if (typeof encodingOrCb === 'function') (encodingOrCb as () => void)();
-    else if (typeof cb === 'function') (cb as () => void)();
-    return true;
-  }) as typeof res.write;
-
-  res.end = ((chunk?: unknown, encodingOrCb?: unknown, cb?: unknown): ServerResponse => {
-    if (chunk && typeof chunk !== 'function') {
-      const buf = Buffer.isBuffer(chunk)
-        ? chunk
-        : Buffer.from(String(chunk), typeof encodingOrCb === 'string' ? (encodingOrCb as BufferEncoding) : 'utf-8');
-      chunks.push(buf);
-    }
-    const body = Buffer.concat(chunks);
-    const contentType = String(res.getHeader('Content-Type') || '');
-    const isCompressible =
-      /text\/html|text\/css|javascript|application\/json|application\/xml|text\/xml|image\/svg\+xml/i.test(contentType) ||
-      url === '/' ||
-      url.endsWith('.html');
-
-    if (isCompressible && body.length > 512 && !res.getHeader('Content-Encoding')) {
-      const gz = gzipSync(body, { level: 6 });
-      res.setHeader('Content-Encoding', 'gzip');
-      res.setHeader('Content-Length', String(gz.length));
-      origWrite(gz);
-      return origEnd(typeof encodingOrCb === 'function' ? encodingOrCb : (cb as (() => void) | undefined));
-    }
-
-    if (body.length > 0) {
-      res.setHeader('Content-Length', String(body.length));
-      origWrite(body);
-    }
-    return origEnd(typeof encodingOrCb === 'function' ? encodingOrCb : (cb as (() => void) | undefined));
-  }) as typeof res.end;
-
-  next();
-}
-
-function aisSeoCdnGzipPlugin(): Plugin {
-  return {
-    name: 'ais-seo-cdn-gzip-headers',
-    configureServer(server) {
-      server.middlewares.use(attachCompressionAndCdnMiddleware);
-    },
-    configurePreviewServer(server) {
-      server.middlewares.use(attachCompressionAndCdnMiddleware);
-    },
-  };
-}
-
 const htmlInputs = discoverHtmlInputs(rootDir);
 const importmapTable = parseImportmaps(htmlInputs);
 
 export default defineConfig({
   appType: 'mpa',
   base: './',
-  plugins: [aisSeoCdnGzipPlugin(), aisSyncStaticAndImportmapPlugin(importmapTable)],
+  plugins: [aisSyncStaticAndImportmapPlugin(importmapTable)],
   optimizeDeps: {
     noDiscovery: true,
     include: [],
@@ -277,4 +209,3 @@ export default defineConfig({
     },
   },
 });
-

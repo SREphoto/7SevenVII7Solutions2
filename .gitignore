@@ -1,0 +1,22 @@
+# Dependencies & build output
+node_modules/
+dist/
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Local backup snapshot
+product_restore/
+
+# Firebase CLI cache & debug logs
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+ui-debug.log
+
+# Environment files
+.env
+.env.local
+.env.*.local

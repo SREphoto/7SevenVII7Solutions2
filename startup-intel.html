@@ -1,0 +1,1481 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7SEVENVII7 · Startup Industry, Lead &amp; Product Intelligence Hub</title>
+    <style>
+      :root {
+        --bg: #f8f6f1;
+        --surface: #ffffff;
+        --ink: #141414;
+        --muted: #66635b;
+        --border: #d8d3c8;
+        --gold: #ab8436;
+        --ok: #1f6f43;
+        --warn: #b45309;
+        --bad: #b91c1c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        line-height: 1.48;
+      }
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: var(--ink);
+        color: var(--bg);
+        padding: 14px 24px;
+        border-bottom: 2px solid var(--gold);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 16px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+      header .sub {
+        font-size: 12px;
+        color: #d6d0c4;
+      }
+      .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      button,
+      select,
+      input,
+      textarea {
+        font: inherit;
+      }
+      .btn {
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--ink);
+        padding: 7px 12px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .btn:hover {
+        border-color: var(--ink);
+      }
+      .btn-gold {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #fff;
+      }
+      .btn-gold:hover {
+        filter: brightness(0.92);
+      }
+      .btn-dark {
+        background: #272727;
+        border-color: #444;
+        color: var(--bg);
+      }
+      .btn-ok {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: #fff;
+      }
+      .shell {
+        max-width: 1460px;
+        margin: 0 auto;
+        padding: 18px 24px 64px;
+      }
+      .kpi-strip {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      .kpi-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 14px 16px;
+      }
+      .kpi-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .kpi-value {
+        font-size: 26px;
+        font-weight: 700;
+        margin-top: 4px;
+        letter-spacing: -0.02em;
+      }
+      .kpi-sub {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .tab-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 12px;
+        margin-bottom: 14px;
+      }
+      .tab-btn {
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--ink);
+        padding: 9px 14px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .tab-btn.active {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: var(--bg);
+      }
+      .pill-bar {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        margin-bottom: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+      .pill-bar-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-right: 4px;
+      }
+      .pill {
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: #faf9f6;
+        color: var(--ink);
+        padding: 4px 9px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+      .pill:hover {
+        border-color: var(--ink);
+      }
+      .pill.active {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #fff;
+      }
+      .toolbar {
+        display: grid;
+        grid-template-columns: 2fr repeat(4, minmax(140px, 1fr));
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      @media (max-width: 960px) {
+        .toolbar {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .toolbar input,
+      .toolbar select {
+        width: 100%;
+        padding: 9px 11px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--ink);
+        font-size: 13px;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(430px, 1fr));
+        gap: 16px;
+      }
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+        gap: 16px;
+      }
+      @media (max-width: 540px) {
+        .grid-2,
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .card.status-qualified {
+        border-color: var(--ok);
+        box-shadow: inset 0 0 0 1px var(--ok);
+      }
+      .card.status-contacted {
+        border-color: var(--gold);
+      }
+      .card.status-skip {
+        opacity: 0.65;
+      }
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+      }
+      .badge {
+        background: #f1eee7;
+        border: 1px solid var(--border);
+        color: var(--ink);
+        padding: 2px 7px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .badge-dark {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: var(--bg);
+      }
+      .badge-gold {
+        background: #f6efe0;
+        border-color: var(--gold);
+        color: #7c5d20;
+      }
+      .badge-ok {
+        background: #eaf5ef;
+        border-color: var(--ok);
+        color: var(--ok);
+      }
+      .badge-warn {
+        background: #fef3c7;
+        border-color: var(--warn);
+        color: var(--warn);
+      }
+      .card-title {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 700;
+      }
+      .meta-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        background: #faf9f6;
+        border: 1px solid var(--border);
+        padding: 10px;
+        font-size: 12px;
+      }
+      .meta-grid .k {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .contact-box {
+        background: #faf9f6;
+        border: 1px solid var(--border);
+        padding: 10px;
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .contact-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .contact-row a {
+        color: var(--ink);
+        font-weight: 600;
+        word-break: break-all;
+      }
+      .sources-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .source-link {
+        font-size: 11px;
+        color: #7c5d20;
+        text-decoration: underline;
+      }
+      .crm-controls {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .crm-btn {
+        cursor: pointer;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 5px 4px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .crm-btn.active-new {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: #fff;
+      }
+      .crm-btn.active-contacted {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #fff;
+      }
+      .crm-btn.active-qualified {
+        background: var(--ok);
+        border-color: var(--ok);
+        color: #fff;
+      }
+      .crm-btn.active-skip {
+        background: var(--muted);
+        border-color: var(--muted);
+        color: #fff;
+      }
+      textarea.note {
+        width: 100%;
+        min-height: 46px;
+        resize: vertical;
+        border: 1px solid var(--border);
+        padding: 6px 8px;
+        font-size: 12px;
+      }
+      .industry-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 18px;
+        margin-bottom: 18px;
+      }
+      .bundle-banner {
+        background: #141414;
+        color: #f8f6f1;
+        border-left: 4px solid var(--gold);
+        padding: 12px 16px;
+        margin: 12px 0 16px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      .sku-subgrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 12px;
+      }
+      .sku-card {
+        border: 1px solid var(--border);
+        background: #faf9f6;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .sku-thumb-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .sku-thumb {
+        width: 64px;
+        height: 48px;
+        object-fit: cover;
+        border: 1px solid var(--border);
+        background: #ece8df;
+        flex-shrink: 0;
+      }
+      .pomelli-snippet {
+        background: #f5f1e8;
+        border: 1px solid #d5c8aa;
+        padding: 8px;
+        font-size: 11px;
+        line-height: 1.4;
+      }
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.58);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        z-index: 60;
+      }
+      .modal-backdrop.open {
+        display: flex;
+      }
+      .modal {
+        background: var(--surface);
+        border: 1px solid var(--ink);
+        max-width: 780px;
+        width: 100%;
+        max-height: 88vh;
+        display: flex;
+        flex-direction: column;
+        padding: 18px;
+        gap: 12px;
+        overflow: auto;
+      }
+      .modal pre {
+        margin: 0;
+        background: #f3f0e9;
+        border: 1px solid var(--border);
+        padding: 12px;
+        font-size: 12px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .cli-builder {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        padding: 18px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .form-grid label {
+        display: block;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .form-grid input,
+      .form-grid select {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid var(--border);
+        background: #faf9f6;
+        font-size: 13px;
+      }
+      .code-box {
+        background: #141414;
+        color: #f8f6f1;
+        padding: 14px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        overflow-x: auto;
+        border: 1px solid var(--gold);
+      }
+      .empty-banner {
+        background: var(--surface);
+        border: 1px solid var(--warn);
+        padding: 24px;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>7SEVENVII7 · Startup Industry, Lead &amp; Product Intelligence Hub</h1>
+        <div class="sub" id="header-sub">Loading multi-agent market dataset from <code>./data/startup-intelligence.json</code>...</div>
+      </div>
+      <div class="header-actions">
+        <a href="./index.html" class="btn btn-dark">← Back to Site</a>
+        <a href="./product-audit.html" class="btn btn-dark">Product Audit Tool</a>
+        <button type="button" id="export-leads-csv-btn" class="btn btn-gold">Export Leads CSV</button>
+        <button type="button" id="export-new-skus-btn" class="btn btn-gold">Export Net-New SKUs</button>
+      </div>
+    </header>
+
+    <main class="shell">
+      <section class="kpi-strip" id="kpi-strip"></section>
+
+      <nav class="tab-bar" aria-label="Intelligence Views">
+        <button type="button" class="tab-btn active" data-tab="industries">1. Top 12 Startup Industries</button>
+        <button type="button" class="tab-btn" data-tab="leads">2. Newly Opened Businesses CRM</button>
+        <button type="button" class="tab-btn" data-tab="products">3. Product-Fit &amp; Catalog Expansion</button>
+        <button type="button" class="tab-btn" data-tab="agents">4. Multi-Agent Pipeline &amp; CLI</button>
+      </nav>
+
+      <section class="pill-bar" id="industry-pill-bar" aria-label="Filter by Industry"></section>
+
+      <section id="view-container"></section>
+    </main>
+
+    <div class="modal-backdrop" id="outreach-modal">
+      <div class="modal">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+          <strong id="outreach-modal-title">Draft B2B Launch Outreach</strong>
+          <div style="display:flex;gap:8px;">
+            <button type="button" id="copy-email-btn" class="btn btn-gold">Copy Email</button>
+            <button type="button" id="copy-dm-btn" class="btn">Copy Instagram DM</button>
+            <button type="button" id="close-outreach-btn" class="btn">Close</button>
+          </div>
+        </div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);">Email Pitch</div>
+        <pre id="outreach-email-pre"></pre>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);">Short Instagram / Contact Form DM</div>
+        <pre id="outreach-dm-pre"></pre>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="sku-export-modal">
+      <div class="modal">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;">
+          <strong>Net-New Product Expansion Opportunities (CSV / JSON)</strong>
+          <div style="display:flex;gap:8px;">
+            <button type="button" id="download-skus-csv-btn" class="btn btn-gold">Download CSV</button>
+            <button type="button" id="copy-skus-btn" class="btn">Copy Text</button>
+            <button type="button" id="close-skus-btn" class="btn">Close</button>
+          </div>
+        </div>
+        <pre id="sku-export-pre"></pre>
+      </div>
+    </div>
+
+    <script>
+      const CRM_KEY = '7vii7_lead_crm_v1';
+      const PLANNED_KEY = '7vii7_planned_products_v1';
+
+      let INTEL = null;
+      let CATALOG_BY_CODE = {};
+      let activeTab = 'industries';
+      let selectedIndustryId = 'all';
+      let leadFilters = {
+        search: '',
+        metro: 'all',
+        channel: 'all',
+        status: 'all',
+      };
+      let crmState = loadJsonStorage(CRM_KEY, {});
+
+      function loadJsonStorage(key, fallback) {
+        try {
+          return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback));
+        } catch {
+          return fallback;
+        }
+      }
+
+      function saveCrmState() {
+        localStorage.setItem(CRM_KEY, JSON.stringify(crmState));
+      }
+
+      function getLeadCrm(id) {
+        return crmState[id] || { status: 'new', note: '' };
+      }
+
+      function setLeadCrm(id, patch) {
+        crmState[id] = { ...getLeadCrm(id), ...patch };
+        saveCrmState();
+      }
+
+      function escapeHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function safeHref(url) {
+        const s = String(url ?? '').trim();
+        if (!s) return '';
+        if (/^https?:\/\//i.test(s)) return s;
+        return 'https://' + s;
+      }
+
+      function csvCell(val) {
+        const raw = val == null ? '' : String(val);
+        if (/[",\r\n]/.test(raw)) {
+          return `"${raw.replace(/"/g, '""')}"`;
+        }
+        return raw;
+      }
+
+      function triggerDownload(filename, mime, content) {
+        const blob = new Blob([content], { type: mime });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function isPlannedInAudit(proposedSku, name) {
+        const list = loadJsonStorage(PLANNED_KEY, []);
+        return list.some(
+          (item) =>
+            (item.productCode && item.productCode === proposedSku) ||
+            (item.name && item.name.toLowerCase() === String(name).toLowerCase())
+        );
+      }
+
+      function addPlannedToAudit(pr, opp) {
+        const list = loadJsonStorage(PLANNED_KEY, []);
+        if (isPlannedInAudit(opp.proposedSku, opp.name)) return false;
+        const slug = String(opp.name || opp.proposedSku)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '');
+        list.unshift({
+          id: `idea-${String(opp.proposedSku || 'sku').toLowerCase()}-${slug}`.slice(0, 60),
+          name: opp.name,
+          price: Number(opp.suggestedPrice || 75),
+          category: opp.category || 'physical',
+          industry: pr.l1Industry || 'founders-launch',
+          subIndustry: pr.l2SubIndustry || pr.industryId,
+          productCode: opp.proposedSku,
+          typeLabel: `Planned Idea · ${pr.industryName}`,
+          description: opp.pomelliSceneDesc || opp.productSpec || opp.buyerPainPoint,
+          isPlanned: true,
+        });
+        localStorage.setItem(PLANNED_KEY, JSON.stringify(list));
+        return true;
+      }
+
+      async function loadCatalogThumbnails() {
+        try {
+          const res = await fetch('./index.html', { cache: 'no-store' });
+          if (!res.ok) return;
+          const html = await res.text();
+          const match = html.match(/const PRODUCTS = (\[[\s\S]*?\n\s*\]);/);
+          if (!match) return;
+          const products = new Function(`return (${match[1]});`)();
+          for (const p of products) {
+            const code = p.productCode || p.id;
+            if (!CATALOG_BY_CODE[code]) {
+              CATALOG_BY_CODE[code] = p;
+            }
+          }
+        } catch {
+          // Thumbnail enrichment is optional
+        }
+      }
+
+      async function init() {
+        await loadCatalogThumbnails();
+        try {
+          const res = await fetch('./data/startup-intelligence.json', { cache: 'no-store' });
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status} loading ./data/startup-intelligence.json`);
+          }
+          INTEL = await res.json();
+          const stats = INTEL.summaryStats || {};
+          document.getElementById('header-sub').innerHTML =
+            `Window: <strong>${escapeHtml(INTEL.window || 'Past 12 Months')}</strong> · Generated ${escapeHtml((INTEL.generatedAt || '').slice(0, 10))} · ${escapeHtml(stats.industriesCount ?? INTEL.industries?.length ?? 0)} Industries · ${escapeHtml(stats.leadsCount ?? INTEL.leads?.length ?? 0)} Verified Leads`;
+          renderAll();
+        } catch (err) {
+          document.getElementById('header-sub').textContent = 'Dataset not found or failed to load.';
+          document.getElementById('view-container').innerHTML = `
+            <div class="empty-banner">
+              <strong>Could not load <code>./data/startup-intelligence.json</code></strong>
+              <p>${escapeHtml(err.message)}</p>
+              <p>Run <code>npm run agents:research</code> or execute <code>workflows/startup_research_workflow.py</code> to generate the live multi-agent intelligence dataset.</p>
+            </div>`;
+        }
+      }
+
+      function renderKpis() {
+        if (!INTEL) return;
+        const leads = INTEL.leads || [];
+        const industries = INTEL.industries || [];
+        const prList = INTEL.productResearch || [];
+        const withDirect = leads.filter(
+          (l) => (l.phone || '').trim() || (l.email || '').trim() || (l.website || '').trim() || (l.instagram || '').trim()
+        ).length;
+        const withPhone = leads.filter((l) => (l.phone || '').trim()).length;
+        const withEmail = leads.filter((l) => (l.email || '').trim()).length;
+        const existingMatches = prList.reduce((sum, p) => sum + (p.existingSkuMatches || []).length, 0);
+        const newIdeas = prList.reduce((sum, p) => sum + (p.newProductOpportunities || []).length, 0);
+        const qualifiedCount = leads.filter((l) => getLeadCrm(l.id).status === 'qualified').length;
+
+        document.getElementById('kpi-strip').innerHTML = `
+          <div class="kpi-card">
+            <div class="kpi-label">Top Startup Industries</div>
+            <div class="kpi-value">${industries.length}</div>
+            <div class="kpi-sub">Ranked high-growth 2025–2026 sectors</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Newly Opened Leads</div>
+            <div class="kpi-value">${leads.length}</div>
+            <div class="kpi-sub">${withDirect} with verified contact channels</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Direct Phone / Email</div>
+            <div class="kpi-value">${withPhone} / ${withEmail}</div>
+            <div class="kpi-sub">CRM Qualified: ${qualifiedCount}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Existing 7V-* Matches</div>
+            <div class="kpi-value">${existingMatches}</div>
+            <div class="kpi-sub">Mapped from index.html catalog</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Net-New Product Ideas</div>
+            <div class="kpi-value">${newIdeas}</div>
+            <div class="kpi-sub">1-click push to Product Audit</div>
+          </div>
+        `;
+      }
+
+      function renderPillBar() {
+        const bar = document.getElementById('industry-pill-bar');
+        if (!INTEL) {
+          bar.innerHTML = '';
+          return;
+        }
+        const leads = INTEL.leads || [];
+        const industries = INTEL.industries || [];
+        const leadCounts = {};
+        for (const l of leads) {
+          leadCounts[l.industryId] = (leadCounts[l.industryId] || 0) + 1;
+        }
+
+        bar.innerHTML = `
+          <span class="pill-bar-label">Industry Scope:</span>
+          <button type="button" class="pill ${selectedIndustryId === 'all' ? 'active' : ''}" data-pill-ind="all">
+            All Industries (${industries.length})
+          </button>
+          ${industries
+            .map(
+              (ind) => `
+            <button type="button" class="pill ${selectedIndustryId === ind.id ? 'active' : ''}" data-pill-ind="${escapeHtml(ind.id)}">
+              #${escapeHtml(ind.rank)} ${escapeHtml(ind.name)} (${leadCounts[ind.id] || 0})
+            </button>
+          `
+            )
+            .join('')}
+        `;
+      }
+
+      function getFilteredLeads() {
+        if (!INTEL) return [];
+        const q = leadFilters.search.trim().toLowerCase();
+        return (INTEL.leads || []).filter((l) => {
+          if (selectedIndustryId !== 'all' && l.industryId !== selectedIndustryId) return false;
+          if (leadFilters.metro !== 'all' && `${l.city}, ${l.state}` !== leadFilters.metro) return false;
+          if (leadFilters.channel === 'phone' && !(l.phone || '').trim()) return false;
+          if (leadFilters.channel === 'email' && !(l.email || '').trim()) return false;
+          if (leadFilters.channel === 'website' && !(l.website || '').trim()) return false;
+          if (leadFilters.channel === 'instagram' && !(l.instagram || '').trim()) return false;
+          const st = getLeadCrm(l.id).status;
+          if (leadFilters.status !== 'all' && st !== leadFilters.status) return false;
+          if (q) {
+            const hay = [
+              l.businessName,
+              l.industryName,
+              l.city,
+              l.state,
+              l.address,
+              l.openedDate,
+              l.openingEvidence,
+              l.recommendedPitchAngle,
+              l.phone,
+              l.email,
+              l.instagram,
+            ]
+              .join(' ')
+              .toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+      }
+
+      function renderIndustriesView() {
+        const industries = (INTEL.industries || []).filter(
+          (ind) => selectedIndustryId === 'all' || ind.id === selectedIndustryId
+        );
+        const leadsByInd = {};
+        for (const l of INTEL.leads || []) {
+          leadsByInd[l.industryId] = (leadsByInd[l.industryId] || 0) + 1;
+        }
+
+        return `
+          <div class="grid-2">
+            ${industries
+              .map((ind) => {
+                const covClass =
+                  ind.catalogCoverage === 'existing'
+                    ? 'badge-ok'
+                    : ind.catalogCoverage === 'planned'
+                      ? 'badge-gold'
+                      : 'badge-warn';
+                return `
+                  <article class="card">
+                    <div class="badge-row">
+                      <span class="badge badge-dark">Rank #${escapeHtml(ind.rank)}</span>
+                      <span class="badge">${escapeHtml(ind.l1Industry)} › ${escapeHtml(ind.l2SubIndustry)}</span>
+                      <span class="badge ${covClass}">${escapeHtml(ind.catalogCoverage)}</span>
+                    </div>
+                    <h2 class="card-title">${escapeHtml(ind.name)}</h2>
+                    <div class="meta-grid">
+                      <div>
+                        <div class="k">Growth Signal</div>
+                        <div>${escapeHtml(ind.growthMetric)}</div>
+                      </div>
+                      <div>
+                        <div class="k">Startup Budget &amp; Team</div>
+                        <div>${escapeHtml(ind.typicalStartupBudget)} · ${escapeHtml(ind.avgTeamSize)}</div>
+                      </div>
+                    </div>
+                    <div style="font-size:13px;">${escapeHtml(ind.whyBooming)}</div>
+                    <div style="font-size:12px;color:var(--muted);">
+                      <strong style="color:var(--ink);">Day-1 Buyer:</strong> ${escapeHtml(ind.dayOneBuyerProfile)}
+                    </div>
+                    <div class="sources-list">
+                      ${(ind.sources || [])
+                        .map(
+                          (s) =>
+                            `<a class="source-link" href="${escapeHtml(safeHref(s.url))}" target="_blank" rel="noopener noreferrer">${escapeHtml(s.title || s.url)} ↗</a>`
+                        )
+                        .join('')}
+                    </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:6px;">
+                      <button type="button" class="btn btn-gold" data-jump-tab="leads" data-jump-ind="${escapeHtml(ind.id)}">
+                        View Newly Opened Leads (${leadsByInd[ind.id] || 0})
+                      </button>
+                      <button type="button" class="btn" data-jump-tab="products" data-jump-ind="${escapeHtml(ind.id)}">
+                        Product-Fit Matrix →
+                      </button>
+                    </div>
+                  </article>
+                `;
+              })
+              .join('')}
+          </div>
+        `;
+      }
+
+      function renderLeadsView() {
+        const allLeads = INTEL.leads || [];
+        const metros = [...new Set(allLeads.map((l) => `${l.city}, ${l.state}`).filter((m) => m !== ', '))].sort();
+        const filtered = getFilteredLeads();
+
+        return `
+          <div class="toolbar">
+            <input type="text" id="lead-search-input" value="${escapeHtml(leadFilters.search)}" placeholder="Search business name, city, address, pitch..." />
+            <select id="lead-metro-filter">
+              <option value="all">All Metros (${metros.length})</option>
+              ${metros
+                .map(
+                  (m) =>
+                    `<option value="${escapeHtml(m)}" ${leadFilters.metro === m ? 'selected' : ''}>${escapeHtml(m)}</option>`
+                )
+                .join('')}
+            </select>
+            <select id="lead-channel-filter">
+              <option value="all" ${leadFilters.channel === 'all' ? 'selected' : ''}>All Contact Channels</option>
+              <option value="phone" ${leadFilters.channel === 'phone' ? 'selected' : ''}>Has Verified Phone</option>
+              <option value="email" ${leadFilters.channel === 'email' ? 'selected' : ''}>Has Direct Email</option>
+              <option value="website" ${leadFilters.channel === 'website' ? 'selected' : ''}>Has Website</option>
+              <option value="instagram" ${leadFilters.channel === 'instagram' ? 'selected' : ''}>Has Instagram</option>
+            </select>
+            <select id="lead-status-filter">
+              <option value="all" ${leadFilters.status === 'all' ? 'selected' : ''}>All CRM Statuses</option>
+              <option value="new" ${leadFilters.status === 'new' ? 'selected' : ''}>New</option>
+              <option value="contacted" ${leadFilters.status === 'contacted' ? 'selected' : ''}>Contacted</option>
+              <option value="qualified" ${leadFilters.status === 'qualified' ? 'selected' : ''}>Qualified</option>
+              <option value="skip" ${leadFilters.status === 'skip' ? 'selected' : ''}>Skip</option>
+            </select>
+            <button type="button" id="reset-lead-filters-btn" class="btn">Clear Filters (${filtered.length}/${allLeads.length})</button>
+          </div>
+          <div class="grid-3">
+            ${
+              filtered.length === 0
+                ? `<div class="empty-banner">No newly opened businesses match the active filters. Try clearing filters or selecting All Industries.</div>`
+                : filtered
+                    .map((l) => {
+                      const crm = getLeadCrm(l.id);
+                      const cardCls =
+                        crm.status === 'qualified'
+                          ? 'status-qualified'
+                          : crm.status === 'contacted'
+                            ? 'status-contacted'
+                            : crm.status === 'skip'
+                              ? 'status-skip'
+                              : '';
+                      return `
+                        <article class="card ${cardCls}" data-lead-id="${escapeHtml(l.id)}">
+                          <div class="badge-row">
+                            <span class="badge badge-dark">Opened ${escapeHtml(l.openedDate)}</span>
+                            <span class="badge badge-gold">${escapeHtml(l.city)}, ${escapeHtml(l.state)}</span>
+                            <span class="badge">${escapeHtml(l.industryName)}</span>
+                          </div>
+                          <h2 class="card-title">${escapeHtml(l.businessName)}</h2>
+                          <div style="font-size:12px;color:var(--muted);">
+                            ${escapeHtml(l.openingEvidence)}
+                            ${
+                              l.sourceUrl
+                                ? `<a class="source-link" href="${escapeHtml(safeHref(l.sourceUrl))}" target="_blank" rel="noopener noreferrer">Verify Source ↗</a>`
+                                : ''
+                            }
+                          </div>
+                          <div class="contact-box">
+                            <div class="contact-row">
+                              <span><strong>Website:</strong></span>
+                              <span>${l.website ? `<a href="${escapeHtml(safeHref(l.website))}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.website)}</a>` : '—'}</span>
+                            </div>
+                            <div class="contact-row">
+                              <span><strong>Phone:</strong></span>
+                              <span>${l.phone ? `<a href="tel:${escapeHtml(l.phone)}">${escapeHtml(l.phone)}</a>` : 'Not published'}</span>
+                            </div>
+                            <div class="contact-row">
+                              <span><strong>Email:</strong></span>
+                              <span>${l.email ? `<a href="mailto:${escapeHtml(l.email)}">${escapeHtml(l.email)}</a>` : 'Not publicly listed (use Contact/IG)'}</span>
+                            </div>
+                            <div class="contact-row">
+                              <span><strong>Contact URL:</strong></span>
+                              <span>${l.contactUrl ? `<a href="${escapeHtml(safeHref(l.contactUrl))}" target="_blank" rel="noopener noreferrer">Open Contact / Booking ↗</a>` : '—'}</span>
+                            </div>
+                            <div class="contact-row">
+                              <span><strong>Instagram:</strong></span>
+                              <span>${l.instagram ? `<a href="https://instagram.com/${escapeHtml(l.instagram.replace(/^@/, ''))}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.instagram)}</a>` : '—'}</span>
+                            </div>
+                            <div class="contact-row">
+                              <span><strong>Address:</strong></span>
+                              <span>${escapeHtml(l.address || `${l.city}, ${l.state}`)}</span>
+                            </div>
+                          </div>
+                          <div style="font-size:12px;background:#f6efe0;border:1px solid #d5c8aa;padding:8px;">
+                            <strong>7SEVENVII7 Pitch Angle:</strong> ${escapeHtml(l.recommendedPitchAngle)}
+                          </div>
+                          <textarea class="note" placeholder="Outreach log / founder name / call notes..." data-lead-note="${escapeHtml(l.id)}">${escapeHtml(crm.note)}</textarea>
+                          <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:auto;">
+                            <button type="button" class="btn btn-gold" data-draft-outreach="${escapeHtml(l.id)}">Draft Outreach</button>
+                            <div class="crm-controls" style="flex:1;min-width:210px;">
+                              ${['new', 'contacted', 'qualified', 'skip']
+                                .map(
+                                  (st) => `
+                                <button type="button" class="crm-btn ${crm.status === st ? 'active-' + st : ''}" data-lead-status="${st}" data-target-lead="${escapeHtml(l.id)}">${st}</button>
+                              `
+                                )
+                                .join('')}
+                            </div>
+                          </div>
+                        </article>
+                      `;
+                    })
+                    .join('')
+            }
+          </div>
+        `;
+      }
+
+      function renderProductsView() {
+        const sections = (INTEL.productResearch || []).filter(
+          (pr) => selectedIndustryId === 'all' || pr.industryId === selectedIndustryId
+        );
+
+        return sections
+          .map((pr) => {
+            const bundle = pr.recommendedStarterBundle || {};
+            return `
+              <section class="industry-section">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+                  <div>
+                    <div class="badge-row" style="margin-bottom:6px;">
+                      <span class="badge">${escapeHtml(pr.l1Industry || '')} › ${escapeHtml(pr.l2SubIndustry || pr.industryId)}</span>
+                    </div>
+                    <h2 class="card-title" style="font-size:20px;">${escapeHtml(pr.industryName)}</h2>
+                  </div>
+                  <button type="button" class="btn" data-jump-tab="leads" data-jump-ind="${escapeHtml(pr.industryId)}">View Leads in This Vertical →</button>
+                </div>
+
+                <div class="bundle-banner">
+                  <div>
+                    <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#d6c192;font-weight:700;">Anchor Launch Bundle</div>
+                    <div style="font-size:16px;font-weight:700;">${escapeHtml(bundle.bundleName || 'Day-1 Studio Launch Bundle')} · $${escapeHtml(bundle.targetPrice || 0)}</div>
+                    <div style="font-size:12px;color:#d6d0c4;margin-top:3px;">${escapeHtml(bundle.pitchSummary || '')}</div>
+                  </div>
+                  <div style="display:flex;gap:5px;flex-wrap:wrap;">
+                    ${(bundle.includedSkus || []).map((sku) => `<span class="badge badge-gold">${escapeHtml(sku)}</span>`).join('')}
+                  </div>
+                </div>
+
+                <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:14px 0 8px;">Existing 7SEVENVII7 Catalog Fits (${(pr.existingSkuMatches || []).length})</h3>
+                <div class="sku-subgrid">
+                  ${(pr.existingSkuMatches || [])
+                    .map((m) => {
+                      const cat = CATALOG_BY_CODE[m.productCode];
+                      return `
+                        <div class="sku-card">
+                          <div class="sku-thumb-row">
+                            ${
+                              cat && cat.image
+                                ? `<img class="sku-thumb" src="${escapeHtml(cat.image)}" alt="${escapeHtml(cat.alt || m.productName)}" loading="lazy" />`
+                                : ''
+                            }
+                            <div>
+                              <div class="badge-row">
+                                <span class="badge badge-gold">${escapeHtml(m.productCode)}</span>
+                                <span class="badge">${escapeHtml(m.category)} · $${escapeHtml(m.price)}</span>
+                              </div>
+                              <div style="font-weight:700;font-size:13px;margin-top:4px;">${escapeHtml(m.productName)}</div>
+                            </div>
+                          </div>
+                          <div style="font-size:12px;">${escapeHtml(m.fitRationale)}</div>
+                          <div style="font-size:11px;color:var(--muted);">
+                            <strong style="color:var(--ink);">Hook (Qty ${escapeHtml(m.estimatedBundleQty)}):</strong> ${escapeHtml(m.dayOnePitchHook)}
+                          </div>
+                        </div>
+                      `;
+                    })
+                    .join('')}
+                </div>
+
+                <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:18px 0 8px;">Net-New Catalog Expansion Opportunities (${(pr.newProductOpportunities || []).length})</h3>
+                <div class="sku-subgrid">
+                  ${(pr.newProductOpportunities || [])
+                    .map((opp, idx) => {
+                      const added = isPlannedInAudit(opp.proposedSku, opp.name);
+                      return `
+                        <div class="sku-card" style="background:#ffffff;">
+                          <div class="badge-row">
+                            <span class="badge badge-dark">${escapeHtml(opp.proposedSku)}</span>
+                            <span class="badge">${escapeHtml(opp.category)} · $${escapeHtml(opp.suggestedPrice)}</span>
+                            <span class="badge badge-ok">${escapeHtml(opp.estimatedGrossMarginPct)}% GM</span>
+                          </div>
+                          <div style="font-weight:700;font-size:14px;">${escapeHtml(opp.name)}</div>
+                          <div style="font-size:12px;"><strong>Buyer Pain:</strong> ${escapeHtml(opp.buyerPainPoint)}</div>
+                          <div style="font-size:12px;color:var(--muted);"><strong>Spec:</strong> ${escapeHtml(opp.productSpec)}</div>
+                          <div class="pomelli-snippet">
+                            <strong>Pomelli Scene:</strong> ${escapeHtml(opp.pomelliSceneDesc)}
+                          </div>
+                          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;">
+                            <button
+                              type="button"
+                              class="btn ${added ? 'btn-ok' : 'btn-gold'}"
+                              data-send-audit="${escapeHtml(pr.industryId)}::${idx}"
+                            >${added ? 'Added to Product Audit ✓' : '+ Send to Product Audit'}</button>
+                            <button type="button" class="btn" data-copy-pomelli="${escapeHtml(pr.industryId)}::${idx}">Copy Pomelli Prompt</button>
+                          </div>
+                        </div>
+                      `;
+                    })
+                    .join('')}
+                </div>
+              </section>
+            `;
+          })
+          .join('');
+      }
+
+      function renderAgentsView() {
+        return `
+          <div class="grid-3" style="margin-bottom:18px;">
+            <article class="card">
+              <div class="badge-row"><span class="badge badge-dark">Agent 01</span><span class="badge badge-gold">industry-scout</span></div>
+              <h2 class="card-title">Industry Scout Agent</h2>
+              <p style="font-size:13px;margin:0;">Researches top U.S. startup industries using live web grounding (U.S. Census BFS, SBA, Yelp Local Economic Impact, Guidant/Gusto) and classifies them against 7SEVENVII7 L1 › L2 taxonomy.</p>
+            </article>
+            <article class="card">
+              <div class="badge-row"><span class="badge badge-dark">Agent 02</span><span class="badge badge-gold">new-business-lead-finder</span></div>
+              <h2 class="card-title">New Business Lead Finder Agent</h2>
+              <p style="font-size:13px;margin:0;">Scans local opening press (WhatNow, Eater, CultureMap, Community Impact, Business Journals) and official business websites to verify openings from Nov 2025 – Nov 2026 and extract public contacts without guessing.</p>
+            </article>
+            <article class="card">
+              <div class="badge-row"><span class="badge badge-dark">Agent 03</span><span class="badge badge-gold">product-fit-strategist</span></div>
+              <h2 class="card-title">Product-Fit Strategist Agent</h2>
+              <p style="font-size:13px;margin:0;">Reads all 48 unique <code>productCode</code> SKUs from <code>./index.html</code>, maps 4 existing fits per vertical, and designs 3 high-margin net-new B2B products with Pomelli photography briefs.</p>
+            </article>
+          </div>
+
+          <section class="cli-builder">
+            <h2 class="card-title" style="margin-bottom:10px;">Standalone Gemini Interactions CLI Runner</h2>
+            <p style="font-size:13px;color:var(--muted);margin-top:0;">Configure parameters below to copy a runnable CLI command for <code>scripts/agents/startup-research-agents.ts</code> (requires <code>GEMINI_API_KEY</code>) or run <code>workflows/startup_research_workflow.py</code> inside Antigravity.</p>
+            <div class="form-grid">
+              <div>
+                <label for="cli-metros">Target U.S. Metros (; separated)</label>
+                <input id="cli-metros" type="text" value="Austin, TX;Dallas-Fort Worth, TX;Miami, FL;New York, NY;Los Angeles, CA;Atlanta, GA" />
+              </div>
+              <div>
+                <label for="cli-ind-count">Industry Count</label>
+                <input id="cli-ind-count" type="number" min="1" max="20" value="12" />
+              </div>
+              <div>
+                <label for="cli-leads-per">Leads Per Industry</label>
+                <input id="cli-leads-per" type="number" min="1" max="10" value="5" />
+              </div>
+              <div>
+                <label for="cli-model">Gemini 4 Model</label>
+                <select id="cli-model">
+                  <option value="gemini-4-hydrogen" selected>gemini-4-hydrogen (Balanced Default)</option>
+                  <option value="gemini-4-argon">gemini-4-argon (Fast Reasoning)</option>
+                  <option value="gemini-4-carbon">gemini-4-carbon (Deep Frontier)</option>
+                  <option value="gemini-4-neon">gemini-4-neon (Fast Frontier)</option>
+                </select>
+              </div>
+              <div>
+                <label for="cli-filter">Filter Single Industry (Optional)</label>
+                <select id="cli-filter">
+                  <option value="">All Industries</option>
+                  ${(INTEL?.industries || [])
+                    .map((i) => `<option value="${escapeHtml(i.id)}">${escapeHtml(i.name)}</option>`)
+                    .join('')}
+                </select>
+              </div>
+              <div>
+                <label for="cli-dry-run">Mode</label>
+                <select id="cli-dry-run">
+                  <option value="live">Live Multi-Agent Execution</option>
+                  <option value="dry">Dry Run (Validate Catalog &amp; Config)</option>
+                </select>
+              </div>
+            </div>
+            <div class="code-box" id="cli-command-preview"></div>
+            <div style="margin-top:10px;display:flex;gap:8px;">
+              <button type="button" id="copy-cli-btn" class="btn btn-gold">Copy CLI Command</button>
+            </div>
+          </section>
+        `;
+      }
+
+      function updateCliPreview() {
+        const el = document.getElementById('cli-command-preview');
+        if (!el) return;
+        const metros = document.getElementById('cli-metros').value.trim();
+        const indCount = document.getElementById('cli-ind-count').value;
+        const leadsPer = document.getElementById('cli-leads-per').value;
+        const model = document.getElementById('cli-model').value;
+        const filter = document.getElementById('cli-filter').value;
+        const dry = document.getElementById('cli-dry-run').value === 'dry';
+
+        const parts = [
+          'npm run agents:research --',
+          `--model ${model}`,
+          `--industry-count ${indCount}`,
+          `--leads-per-industry ${leadsPer}`,
+        ];
+        if (metros) parts.push(`--metros "${metros}"`);
+        if (filter) parts.push(`--filter-industry ${filter}`);
+        if (dry) parts.push('--dry-run');
+        el.textContent = parts.join(' ');
+      }
+
+      function renderView() {
+        if (!INTEL) return;
+        const container = document.getElementById('view-container');
+        if (activeTab === 'industries') {
+          container.innerHTML = renderIndustriesView();
+        } else if (activeTab === 'leads') {
+          container.innerHTML = renderLeadsView();
+        } else if (activeTab === 'products') {
+          container.innerHTML = renderProductsView();
+        } else {
+          container.innerHTML = renderAgentsView();
+          updateCliPreview();
+        }
+      }
+
+      function renderAll() {
+        renderKpis();
+        renderPillBar();
+        renderView();
+      }
+
+      // --- Event Delegation ---
+
+      document.querySelector('.tab-bar').addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-tab]');
+        if (!btn) return;
+        activeTab = btn.getAttribute('data-tab');
+        document.querySelectorAll('.tab-btn').forEach((b) => b.classList.toggle('active', b === btn));
+        renderView();
+      });
+
+      document.getElementById('industry-pill-bar').addEventListener('click', (e) => {
+        const pill = e.target.closest('[data-pill-ind]');
+        if (!pill) return;
+        selectedIndustryId = pill.getAttribute('data-pill-ind');
+        renderPillBar();
+        renderView();
+      });
+
+      document.getElementById('view-container').addEventListener('click', async (e) => {
+        const jumpBtn = e.target.closest('[data-jump-tab]');
+        if (jumpBtn) {
+          activeTab = jumpBtn.getAttribute('data-jump-tab');
+          selectedIndustryId = jumpBtn.getAttribute('data-jump-ind') || 'all';
+          document.querySelectorAll('.tab-btn').forEach((b) => b.classList.toggle('active', b.getAttribute('data-tab') === activeTab));
+          renderPillBar();
+          renderView();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+
+        const resetBtn = e.target.closest('#reset-lead-filters-btn');
+        if (resetBtn) {
+          leadFilters = { search: '', metro: 'all', channel: 'all', status: 'all' };
+          selectedIndustryId = 'all';
+          renderPillBar();
+          renderView();
+          return;
+        }
+
+        const statusBtn = e.target.closest('[data-lead-status]');
+        if (statusBtn) {
+          const id = statusBtn.getAttribute('data-target-lead');
+          const status = statusBtn.getAttribute('data-lead-status');
+          setLeadCrm(id, { status });
+          renderKpis();
+          renderView();
+          return;
+        }
+
+        const draftBtn = e.target.closest('[data-draft-outreach]');
+        if (draftBtn) {
+          const leadId = draftBtn.getAttribute('data-draft-outreach');
+          const lead = (INTEL.leads || []).find((l) => l.id === leadId);
+          const pr = (INTEL.productResearch || []).find((p) => p.industryId === lead?.industryId);
+          const bundle = pr?.recommendedStarterBundle || {};
+          if (!lead) return;
+
+          document.getElementById('outreach-modal-title').textContent = `Outreach Draft · ${lead.businessName} (${lead.city}, ${lead.state})`;
+          document.getElementById('outreach-email-pre').textContent = [
+            `Subject: Congrats on opening ${lead.businessName} in ${lead.city} — Day-1 Studio Suite`,
+            ``,
+            `Hi ${lead.businessName} team,`,
+            ``,
+            `Congratulations on your ${lead.openedDate} launch in ${lead.city}, ${lead.state}!`,
+            ``,
+            `${lead.recommendedPitchAngle}`,
+            ``,
+            `At 7SEVENVII7SOLUTIONS (7sevenvii7.com), we outfit newly launched ${lead.industryName} operators with architectural warm-alabaster & matte-obsidian essentials — specifically our ${bundle.bundleName || 'Day-1 Studio Launch Bundle'} ($${bundle.targetPrice || 495}, including ${(bundle.includedSkus || []).join(', ')}).`,
+            ``,
+            `${bundle.pitchSummary || 'Happy to send custom monogram mockups for your team.'}`,
+            ``,
+            `Would you be open to a quick 2-minute look at tailored mockups for ${lead.businessName}?`,
+            ``,
+            `Best,`,
+            `7SEVENVII7SOLUTIONS · Studio Concierge`,
+          ].join('\n');
+
+          document.getElementById('outreach-dm-pre').textContent =
+            `Congrats on opening ${lead.businessName} in ${lead.city} (${lead.openedDate})! We build custom 480gsm uniforms, engraved stone/brass QR check-in blocks & digital client onboarding suites for new ${lead.industryName} studios — would love to send a complimentary mockup of ${bundle.bundleName || 'our Studio Launch Kit'} for your team.`;
+
+          document.getElementById('outreach-modal').classList.add('open');
+          return;
+        }
+
+        const sendBtn = e.target.closest('[data-send-audit]');
+        if (sendBtn) {
+          const [indId, idxStr] = sendBtn.getAttribute('data-send-audit').split('::');
+          const pr = (INTEL.productResearch || []).find((p) => p.industryId === indId);
+          const opp = pr?.newProductOpportunities?.[Number(idxStr)];
+          if (pr && opp) {
+            addPlannedToAudit(pr, opp);
+            sendBtn.className = 'btn btn-ok';
+            sendBtn.textContent = 'Added to Product Audit ✓';
+          }
+          return;
+        }
+
+        const copyPomelliBtn = e.target.closest('[data-copy-pomelli]');
+        if (copyPomelliBtn) {
+          const [indId, idxStr] = copyPomelliBtn.getAttribute('data-copy-pomelli').split('::');
+          const pr = (INTEL.productResearch || []).find((p) => p.industryId === indId);
+          const opp = pr?.newProductOpportunities?.[Number(idxStr)];
+          if (pr && opp) {
+            const prompt = `Editorial 4:3 product photography for 7SEVENVII7 SOLUTIONS: ${opp.name} (SKU ${opp.proposedSku}) set in an active ${pr.industryName} environment. ${opp.pomelliSceneDesc} Aesthetic: warm alabaster (#F8F6F1), matte obsidian (#141414), brushed champagne gold (#AB8436), natural travertine stone, soft architectural daylight, crisp studio focus, no text overlays or watermarks.`;
+            await navigator.clipboard.writeText(prompt);
+            copyPomelliBtn.textContent = 'Copied!';
+            setTimeout(() => (copyPomelliBtn.textContent = 'Copy Pomelli Prompt'), 1300);
+          }
+          return;
+        }
+
+        const copyCliBtn = e.target.closest('#copy-cli-btn');
+        if (copyCliBtn) {
+          const txt = document.getElementById('cli-command-preview').textContent;
+          await navigator.clipboard.writeText(txt);
+          copyCliBtn.textContent = 'Copied!';
+          setTimeout(() => (copyCliBtn.textContent = 'Copy CLI Command'), 1300);
+        }
+      });
+
+      document.getElementById('view-container').addEventListener('input', (e) => {
+        const searchEl = e.target.closest('#lead-search-input');
+        if (searchEl) {
+          leadFilters.search = searchEl.value;
+          const pos = searchEl.selectionStart;
+          renderView();
+          const newInput = document.getElementById('lead-search-input');
+          if (newInput) {
+            newInput.focus();
+            if (pos != null) newInput.setSelectionRange(pos, pos);
+          }
+          return;
+        }
+        const noteEl = e.target.closest('textarea[data-lead-note]');
+        if (noteEl) {
+          setLeadCrm(noteEl.getAttribute('data-lead-note'), { note: noteEl.value });
+          return;
+        }
+        if (e.target.closest('.cli-builder')) {
+          updateCliPreview();
+        }
+      });
+
+      document.getElementById('view-container').addEventListener('change', (e) => {
+        if (e.target.id === 'lead-metro-filter') {
+          leadFilters.metro = e.target.value;
+          renderView();
+        } else if (e.target.id === 'lead-channel-filter') {
+          leadFilters.channel = e.target.value;
+          renderView();
+        } else if (e.target.id === 'lead-status-filter') {
+          leadFilters.status = e.target.value;
+          renderView();
+        } else if (e.target.closest('.cli-builder')) {
+          updateCliPreview();
+        }
+      });
+
+      document.getElementById('export-leads-csv-btn').addEventListener('click', () => {
+        if (!INTEL) return;
+        const rows = getFilteredLeads();
+        const headers = [
+          'id',
+          'businessName',
+          'industryName',
+          'city',
+          'state',
+          'address',
+          'openedDate',
+          'website',
+          'phone',
+          'email',
+          'contactUrl',
+          'instagram',
+          'openingEvidence',
+          'sourceUrl',
+          'recommendedPitchAngle',
+        ];
+        const csv = [headers.join(','), ...rows.map((r) => headers.map((h) => csvCell(r[h])).join(','))].join('\n');
+        triggerDownload('7sevenvii7-newly-opened-leads.csv', 'text/csv;charset=utf-8', csv + '\n');
+      });
+
+      function buildNewSkuRows() {
+        const rows = [];
+        for (const pr of INTEL?.productResearch || []) {
+          if (selectedIndustryId !== 'all' && pr.industryId !== selectedIndustryId) continue;
+          for (const opp of pr.newProductOpportunities || []) {
+            rows.push({
+              industryId: pr.industryId,
+              industryName: pr.industryName,
+              proposedSku: opp.proposedSku,
+              name: opp.name,
+              category: opp.category,
+              suggestedPrice: opp.suggestedPrice,
+              estimatedGrossMarginPct: opp.estimatedGrossMarginPct,
+              buyerPainPoint: opp.buyerPainPoint,
+              productSpec: opp.productSpec,
+              pomelliSceneDesc: opp.pomelliSceneDesc,
+            });
+          }
+        }
+        return rows;
+      }
+
+      document.getElementById('export-new-skus-btn').addEventListener('click', () => {
+        if (!INTEL) return;
+        const rows = buildNewSkuRows();
+        const text = rows
+          .map(
+            (r) =>
+              `[${r.proposedSku}] ${r.name} ($${r.suggestedPrice} | ${r.estimatedGrossMarginPct}% GM) — ${r.industryName}\nPain: ${r.buyerPainPoint}\nSpec: ${r.productSpec}`
+          )
+          .join('\n\n');
+        document.getElementById('sku-export-pre').textContent = text || 'No net-new SKUs available.';
+        document.getElementById('sku-export-modal').classList.add('open');
+      });
+
+      document.getElementById('download-skus-csv-btn').addEventListener('click', () => {
+        const rows = buildNewSkuRows();
+        const headers = [
+          'industryId',
+          'industryName',
+          'proposedSku',
+          'name',
+          'category',
+          'suggestedPrice',
+          'estimatedGrossMarginPct',
+          'buyerPainPoint',
+          'productSpec',
+          'pomelliSceneDesc',
+        ];
+        const csv = [headers.join(','), ...rows.map((r) => headers.map((h) => csvCell(r[h])).join(','))].join('\n');
+        triggerDownload('7sevenvii7-net-new-skus.csv', 'text/csv;charset=utf-8', csv + '\n');
+      });
+
+      document.getElementById('copy-skus-btn').addEventListener('click', async () => {
+        await navigator.clipboard.writeText(document.getElementById('sku-export-pre').textContent);
+        const btn = document.getElementById('copy-skus-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => (btn.textContent = 'Copy Text'), 1300);
+      });
+
+      document.getElementById('close-skus-btn').addEventListener('click', () => {
+        document.getElementById('sku-export-modal').classList.remove('open');
+      });
+
+      document.getElementById('copy-email-btn').addEventListener('click', async () => {
+        await navigator.clipboard.writeText(document.getElementById('outreach-email-pre').textContent);
+        const btn = document.getElementById('copy-email-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => (btn.textContent = 'Copy Email'), 1300);
+      });
+
+      document.getElementById('copy-dm-btn').addEventListener('click', async () => {
+        await navigator.clipboard.writeText(document.getElementById('outreach-dm-pre').textContent);
+        const btn = document.getElementById('copy-dm-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(() => (btn.textContent = 'Copy Instagram DM'), 1300);
+      });
+
+      document.getElementById('close-outreach-btn').addEventListener('click', () => {
+        document.getElementById('outreach-modal').classList.remove('open');
+      });
+
+      init();
+    </script>
+  </body>
+</html>
