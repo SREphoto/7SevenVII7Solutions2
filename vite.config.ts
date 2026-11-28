@@ -23,6 +23,7 @@ const WRAPPER_META_FILES = new Set([
   'security_spec.md',
   'eslint.config.mjs',
   'README.md',
+  'PARTNER_HANDOFF.md',
 ]);
 
 const SKIP_DIRS = new Set([

@@ -462,6 +462,9 @@
           <button type="button" data-page-nav="landing" class="nav-link page-nav-btn text-[10px] font-medium tracking-[0.07em] xl:tracking-[0.11em] uppercase text-obsidian hover:opacity-60 transition-opacity whitespace-nowrap shrink-0 py-1 border-b border-transparent hover:border-obsidian">
             Overhaul
           </button>
+          <button type="button" data-page-nav="curator" class="nav-link page-nav-btn text-[10px] font-medium tracking-[0.07em] xl:tracking-[0.11em] uppercase text-obsidian hover:opacity-60 transition-opacity whitespace-nowrap shrink-0 py-1 border-b border-transparent hover:border-obsidian">
+            Curator
+          </button>
           <button type="button" data-page-nav="pos" class="nav-link page-nav-btn text-[10px] font-medium tracking-[0.07em] xl:tracking-[0.11em] uppercase text-obsidian hover:opacity-60 transition-opacity whitespace-nowrap shrink-0 py-1 border-b border-transparent hover:border-obsidian">
             3D POS
           </button>
@@ -602,11 +605,14 @@
     <div id="mobile-nav-panel" class="hidden lg:hidden bg-alabaster border-b border-obsidian px-4 sm:px-8 py-3">
       <div class="flex items-center justify-between gap-4 overflow-x-auto no-scrollbar">
         <button type="button" data-page-nav="home" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Home</button>
-        <button type="button" data-page-nav="landing" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Overhaul Landing</button>
+        <button type="button" data-page-nav="landing" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">60f Overhaul</button>
+        <button type="button" data-page-nav="curator" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap text-champagne">Curator Tool</button>
         <button type="button" data-page-nav="packages" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Packages</button>
         <button type="button" data-page-nav="physical" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Physical</button>
         <button type="button" data-page-nav="digital" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Digital</button>
         <button type="button" data-page-nav="pos" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap text-champagne">3D POS App</button>
+        <a href="./product-audit.html" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Product Audit</a>
+        <a href="./startup-intel.html" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Startup Intel</a>
         <a href="#journal" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Journal</a>
         <button type="button" id="mobile-account-trigger" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Login / Sign Up</button>
         <button type="button" id="mobile-wishlist-trigger" class="mobile-nav-action text-[11px] font-medium tracking-[0.12em] uppercase py-2 whitespace-nowrap">Saved</button>
@@ -703,7 +709,7 @@
             </div>
             <div class="max-w-[1440px] mx-auto px-4 sm:px-8 py-4 sm:py-5 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
               <!-- Editorial Transformation Headline -->
-              <div class="lg:col-span-6 space-y-1">
+              <div class="lg:col-span-5 space-y-1">
                 <h1 id="hero-headline" class="font-serif text-[28px] sm:text-[36px] xl:text-[42px] leading-[1.06] font-normal text-obsidian text-balance">
                   An empty room holds raw potential.
                 </h1>
@@ -729,7 +735,7 @@
               </div>
 
               <!-- Direct Page CTAs & Scroll Cue -->
-              <div class="lg:col-span-3 flex flex-wrap items-center lg:justify-end gap-2.5">
+              <div class="lg:col-span-4 flex flex-wrap items-center lg:justify-end gap-2.5">
                 <button
                   type="button"
                   data-page-nav="physical"
@@ -743,6 +749,13 @@
                   class="bg-alabaster text-obsidian border border-obsidian px-4 py-2.5 text-[10px] font-medium tracking-[0.15em] uppercase hover:bg-taupe/40 transition-colors whitespace-nowrap min-h-[40px]"
                 >
                   PACKAGES
+                </button>
+                <button
+                  type="button"
+                  data-page-nav="landing"
+                  class="bg-champagne text-[#141414] border border-obsidian px-4 py-2.5 text-[10px] font-medium tracking-[0.15em] uppercase hover:opacity-90 transition-opacity whitespace-nowrap min-h-[40px]"
+                >
+                  OVERHAUL &amp; CURATOR →
                 </button>
                 <button
                   type="button"
@@ -2391,7 +2404,8 @@
             DIRECTORIES
           </p>
           <button type="button" data-page-nav="home" class="block w-full text-left text-[13px] text-[#EDE7DE]/80 hover:text-[#EDE7DE] transition-colors">Home Showroom</button>
-          <button type="button" data-page-nav="landing" class="block w-full text-left text-[13px] text-[#C5B396] hover:text-[#EDE7DE] transition-colors">Overhaul, Login &amp; Inquiry</button>
+          <button type="button" data-page-nav="landing" class="block w-full text-left text-[13px] text-[#C5B396] hover:text-[#EDE7DE] transition-colors">60-Frame Overhaul</button>
+          <button type="button" data-page-nav="curator" class="block w-full text-left text-[13px] text-[#C5B396] hover:text-[#EDE7DE] transition-colors">Product Curator Tool</button>
           <button type="button" data-page-nav="packages" class="block w-full text-left text-[13px] text-[#EDE7DE]/80 hover:text-[#EDE7DE] transition-colors">Business Packages</button>
           <button type="button" data-page-nav="physical" class="block w-full text-left text-[13px] text-[#EDE7DE]/80 hover:text-[#EDE7DE] transition-colors">Physical Products</button>
           <button type="button" data-page-nav="digital" class="block w-full text-left text-[13px] text-[#EDE7DE]/80 hover:text-[#EDE7DE] transition-colors">Digital &amp; Printables</button>
@@ -2412,6 +2426,17 @@
             concierge@7sevenvii7.com
           </a>
           <p class="text-[13px] text-[#EDE7DE]/60">7sevenvii7.com · Drop 01</p>
+          <div class="pt-3 mt-3 border-t border-[#EDE7DE]/15 space-y-2">
+            <p class="text-[10px] tracking-[0.18em] uppercase text-[#C5B396]">
+              PARTNER &amp; OPS TOOLS
+            </p>
+            <a href="./product-audit.html" class="block text-[13px] text-[#EDE7DE]/85 hover:text-[#C5B396] transition-colors">
+              Product &amp; Asset Audit Tool →
+            </a>
+            <a href="./startup-intel.html" class="block text-[13px] text-[#EDE7DE]/85 hover:text-[#C5B396] transition-colors">
+              Startup &amp; Lead Intelligence →
+            </a>
+          </div>
         </div>
 
         <!-- Newsletter Signup + Horizontal Social Icons Column -->
@@ -6323,8 +6348,10 @@
       });
 
       function navigatePage(pageKey, subFilter = null, updateHash = true) {
+        const isCuratorJump = pageKey === 'curator';
+        const normalizedKey = isCuratorJump ? 'landing' : pageKey;
         const validPages = ['home', 'packages', 'physical', 'digital', 'pos', 'landing'];
-        const target = validPages.includes(pageKey) ? pageKey : 'home';
+        const target = validPages.includes(normalizedKey) ? normalizedKey : 'home';
 
         if (isJournalPageOpen) {
           closeJournalPage(false, false);
@@ -6352,8 +6379,9 @@
         if (viewPos) viewPos.classList.toggle('hidden', target !== 'pos');
         if (viewLanding) viewLanding.classList.toggle('hidden', target !== 'landing');
 
+        const activeNavKey = isCuratorJump ? 'curator' : target;
         pageNavBtns.forEach((btn) => {
-          const isMatch = btn.getAttribute('data-page-nav') === target;
+          const isMatch = btn.getAttribute('data-page-nav') === activeNavKey;
           btn.classList.toggle('border-obsidian', isMatch);
           btn.classList.toggle('border-transparent', !isMatch);
         });
@@ -6383,20 +6411,32 @@
         }
 
         if (updateHash) {
-          const nextHash = target === 'home'
+          const nextHash = isCuratorJump
+            ? '#/curator'
+            : target === 'home'
             ? '#/'
             : target === 'physical' && activeIndustryFilter !== 'all'
             ? `#/physical/${activeIndustryFilter}`
             : `#/${target}`;
           try {
-            window.history.pushState({ page: target, sub: subFilter }, '', nextHash);
+            window.history.pushState({ page: activeNavKey, sub: subFilter }, '', nextHash);
           } catch {
             window.location.hash = nextHash;
           }
         }
 
-        window.scrollTo({ top: 0, behavior: 'auto' });
-        requestAnimationFrame(updateScrollEffects);
+        if (isCuratorJump) {
+          requestAnimationFrame(() => {
+            const curationEl = document.getElementById('curation');
+            if (curationEl) {
+              curationEl.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+            }
+            updateScrollEffects();
+          });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'auto' });
+          requestAnimationFrame(updateScrollEffects);
+        }
       }
 
       /* ---------------------------------------------------------------------
@@ -9215,6 +9255,8 @@
           navigatePage('pos', null, false);
         } else if (hash === '#/landing') {
           navigatePage('landing', null, false);
+        } else if (hash === '#/curator' || hash === '#curation') {
+          navigatePage('curator', null, false);
         } else if (hash === '#/' || hash === '') {
           navigatePage('home', null, false);
         } else if (activePage !== 'home') {
